@@ -1,0 +1,218 @@
+# NOTE: the source automations.yaml contained three identical copies of
+# exotic_os_cora_pid_enabled — deduplicated to one here.
+
+- id: exotic_os_cora_pid_enabled
+  alias: 'Exotic OS: Cora PID — Enabled'
+  description: Kicks off the cycle timer when heat control is turned on
+  triggers:
+  - entity_id: input_boolean.cora_pid_enabled
+    to: 'on'
+    trigger: state
+  actions:
+  - data:
+      entity_id: timer.cora_pid_cycle_timer
+      duration:
+        minutes: '{{ states(''input_number.cora_pid_cycle_time'') | int(5) }}'
+    action: timer.start
+
+- alias: 'Exotic OS: Cora PID — Disabled'
+  id: exotic_os_cora_pid_disabled
+  triggers:
+  - platform: state
+    entity_id: input_boolean.cora_pid_enabled
+    to: 'off'
+  actions:
+  - action: timer.cancel
+    data:
+      entity_id: timer.cora_pid_cycle_timer
+  - action: timer.cancel
+    data:
+      entity_id: timer.cora_pid_on_timer
+  - action: switch.turn_off
+    target:
+      entity_id: "{{ states('input_select.cora_relay') }}"
+  - action: input_number.set_value
+    data:
+      entity_id: input_number.cora_pid_integral
+      value: 0
+  - action: input_number.set_value
+    data:
+      entity_id: input_number.cora_pid_prev_error
+      value: 0
+  - action: input_number.set_value
+    data:
+      entity_id: input_number.cora_pid_output
+      value: 0
+
+- alias: 'Exotic OS: Cora PID — Cycle'
+  id: exotic_os_cora_pid_cycle
+  triggers:
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.cora_pid_cycle_timer
+  conditions:
+  - condition: state
+    entity_id: input_boolean.cora_pid_enabled
+    state: 'on'
+  actions:
+  - action: timer.start
+    data:
+      entity_id: timer.cora_pid_cycle_timer
+      duration:
+        minutes: "{{ states('input_number.cora_pid_cycle_time') | int(5) }}"
+  - variables:
+      setpoint: "{{ states('input_number.cora_pid_setpoint') | float(90) }}"
+      kp: "{{ states('input_number.cora_pid_kp') | float(10) }}"
+      ki: "{{ states('input_number.cora_pid_ki') | float(0.05) }}"
+      kd: "{{ states('input_number.cora_pid_kd') | float(50) }}"
+      dt: "{{ states('input_number.cora_pid_cycle_time') | float(5) }}"
+      integral: "{{ states('input_number.cora_pid_integral') | float(0) }}"
+      prev_error: "{{ states('input_number.cora_pid_prev_error') | float(0) }}"
+      current_temp: >
+        {% set t = states(states('input_select.cora_temp_sensor')) %}
+        {{ t | float(-999) if t not in ['unknown', 'unavailable', 'none', ''] else -999 }}
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: "{{ current_temp == -999 }}"
+      sequence:
+      - action: switch.turn_off
+        target:
+          entity_id: "{{ states('input_select.cora_relay') }}"
+      - action: timer.cancel
+        data:
+          entity_id: timer.cora_pid_on_timer
+      - action: persistent_notification.create
+        data:
+          title: 'Exotic OS — Cora Heat'
+          message: 'Sensor unavailable. Relay turned off. Check BLE sensor connection.'
+          notification_id: cora_pid_sensor_fail
+    default:
+    - variables:
+        error: "{{ setpoint - current_temp }}"
+        output: >
+          {% set e = setpoint - current_temp %}
+          {% set ni = [[integral + e * dt, -500] | max, 500] | min %}
+          {% set d = (e - prev_error) / dt %}
+          {{ [[kp * e + ki * ni + kd * d, 0] | max, 100] | min | round(1) }}
+        new_integral: >
+          {% set e = setpoint - current_temp %}
+          {{ [[integral + e * dt, -500] | max, 500] | min | round(4) }}
+        on_seconds: >
+          {% set e = setpoint - current_temp %}
+          {% set ni = [[integral + e * dt, -500] | max, 500] | min %}
+          {% set d = (e - prev_error) / dt %}
+          {% set out = [[kp * e + ki * ni + kd * d, 0] | max, 100] | min %}
+          {{ (out / 100 * dt * 60) | int }}
+    - action: input_number.set_value
+      data:
+        entity_id: input_number.cora_pid_integral
+        value: "{{ new_integral }}"
+    - action: input_number.set_value
+      data:
+        entity_id: input_number.cora_pid_prev_error
+        value: "{{ error | round(4) }}"
+    - action: input_number.set_value
+      data:
+        entity_id: input_number.cora_pid_output
+        value: "{{ output }}"
+    - choose:
+      - conditions:
+        - condition: template
+          value_template: "{{ on_seconds | int > 0 }}"
+        sequence:
+        - action: switch.turn_on
+          target:
+            entity_id: "{{ states('input_select.cora_relay') }}"
+        - action: timer.start
+          data:
+            entity_id: timer.cora_pid_on_timer
+            duration: "{{ on_seconds }}"
+      default:
+      - action: switch.turn_off
+        target:
+          entity_id: "{{ states('input_select.cora_relay') }}"
+      - action: timer.cancel
+        data:
+          entity_id: timer.cora_pid_on_timer
+
+- alias: 'Exotic OS: Cora PID — On Timer End'
+  id: exotic_os_cora_pid_on_timer_end
+  triggers:
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.cora_pid_on_timer
+  actions:
+  - action: switch.turn_off
+    target:
+      entity_id: "{{ states('input_select.cora_relay') }}"
+
+- alias: 'Exotic OS: Cora PID — Apply Heater Defaults'
+  id: exotic_os_cora_pid_heater_defaults
+  triggers:
+  - platform: state
+    entity_id: input_select.cora_heater_type
+  actions:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_select.cora_heater_type
+        state: 'CHE (Ceramic Heat Emitter)'
+      sequence:
+      - action: input_number.set_value
+        data: { entity_id: input_number.cora_pid_kp, value: 10 }
+      - action: input_number.set_value
+        data: { entity_id: input_number.cora_pid_ki, value: 0.05 }
+      - action: input_number.set_value
+        data: { entity_id: input_number.cora_pid_kd, value: 50 }
+      - action: input_number.set_value
+        data: { entity_id: input_number.cora_pid_cycle_time, value: 5 }
+    - conditions:
+      - condition: state
+        entity_id: input_select.cora_heater_type
+        state: 'Deep Heat Projector'
+      sequence:
+      - action: input_number.set_value
+        data: { entity_id: input_number.cora_pid_kp, value: 8 }
+      - action: input_number.set_value
+        data: { entity_id: input_number.cora_pid_ki, value: 0.03 }
+      - action: input_number.set_value
+        data: { entity_id: input_number.cora_pid_kd, value: 80 }
+      - action: input_number.set_value
+        data: { entity_id: input_number.cora_pid_cycle_time, value: 10 }
+    - conditions:
+      - condition: state
+        entity_id: input_select.cora_heater_type
+        state: 'Heat Mat'
+      sequence:
+      - action: input_number.set_value
+        data: { entity_id: input_number.cora_pid_kp, value: 15 }
+      - action: input_number.set_value
+        data: { entity_id: input_number.cora_pid_ki, value: 0.08 }
+      - action: input_number.set_value
+        data: { entity_id: input_number.cora_pid_kd, value: 25 }
+      - action: input_number.set_value
+        data: { entity_id: input_number.cora_pid_cycle_time, value: 3 }
+    - conditions:
+      - condition: state
+        entity_id: input_select.cora_heater_type
+        state: 'Basking Lamp'
+      sequence:
+      - action: input_number.set_value
+        data: { entity_id: input_number.cora_pid_kp, value: 20 }
+      - action: input_number.set_value
+        data: { entity_id: input_number.cora_pid_ki, value: 0.1 }
+      - action: input_number.set_value
+        data: { entity_id: input_number.cora_pid_kd, value: 15 }
+      - action: input_number.set_value
+        data: { entity_id: input_number.cora_pid_cycle_time, value: 2 }
+  - action: input_number.set_value
+    data:
+      entity_id: input_number.cora_pid_integral
+      value: 0
+  - action: input_number.set_value
+    data:
+      entity_id: input_number.cora_pid_prev_error
+      value: 0

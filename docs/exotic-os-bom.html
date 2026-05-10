@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Exotic OS — Hardware BOM & System Diagrams</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  --bg: #050505;
+  --bg2: #0a0a0a;
+  --bg3: #111;
+  --border: #1a1a1a;
+  --border2: #242424;
+  --cyan: #00E5FF;
+  --cyan-glow: rgba(0,229,255,0.18);
+  --purple: #B026FF;
+  --green: #39FF14;
+  --orange: #FF6B00;
+  --blue: #00BFFF;
+  --text: #e8f4f8;
+  --muted: #a0b0b5;
+  --dim: #555;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Share Tech Mono',monospace;
+  font-size:13px;
+  line-height:1.6;
+  padding:28px 24px;
+  max-width:1200px;
+  margin:0 auto;
+}
+
+/* ── HEADER ─────────────────────────────── */
+.header{
+  text-align:center;
+  padding:44px 20px 36px;
+  border-bottom:1px solid var(--border2);
+  margin-bottom:40px;
+  position:relative;
+}
+.header h1{
+  font-family:'Orbitron',monospace;
+  font-size:2.6rem;
+  font-weight:900;
+  letter-spacing:6px;
+  color:var(--text);
+  text-transform:uppercase;
+}
+.header h1 em{
+  font-style:normal;
+  color:var(--cyan);
+  text-shadow:0 0 24px var(--cyan);
+}
+.header p{
+  color:var(--muted);
+  font-size:.72rem;
+  letter-spacing:3px;
+  margin-top:10px;
+  text-transform:uppercase;
+}
+.header::after{
+  content:'';
+  position:absolute;
+  bottom:-1px;left:50%;transform:translateX(-50%);
+  width:260px;height:1px;
+  background:var(--cyan);
+  box-shadow:0 0 18px var(--cyan);
+}
+
+/* ── SECTION TITLES ─────────────────────── */
+.section-eyebrow{
+  display:flex;align-items:center;gap:10px;
+  font-size:.65rem;letter-spacing:3px;
+  color:var(--muted);text-transform:uppercase;
+  margin-bottom:8px;
+}
+.section-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--cyan);}
+
+h2{
+  font-family:'Orbitron',monospace;
+  font-size:.95rem;letter-spacing:3px;
+  color:var(--cyan);text-shadow:0 0 10px rgba(0,229,255,.45);
+  text-transform:uppercase;
+  margin:36px 0 16px;
+  padding-bottom:8px;
+  border-bottom:1px solid var(--border2);
+}
+h3{
+  font-family:'Space Mono',monospace;
+  font-size:.75rem;letter-spacing:2px;
+  color:var(--muted);text-transform:uppercase;
+  margin:28px 0 10px;
+}
+hr{border:none;border-top:1px solid var(--border2);margin:44px 0;}
+
+/* ── DIAGRAMS ───────────────────────────── */
+.diagram-wrap{
+  background:var(--bg2);
+  border:1px solid var(--border2);
+  border-radius:12px;
+  padding:24px;
+  overflow-x:auto;
+  margin-bottom:32px;
+}
+.arch-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  min-width:680px;
+}
+.arch-col{
+  border-radius:10px;
+  padding:16px 14px;
+  background:var(--bg3);
+  border:1px solid var(--border2);
+  display:flex;flex-direction:column;gap:0;
+}
+.arch-col.v1  {border-top:2px solid var(--purple);}
+.arch-col.v15 {border-top:2px solid var(--blue);}
+.arch-col.v2  {border-top:2px solid var(--green);}
+
+.arch-col-title{
+  font-family:'Orbitron',monospace;
+  font-size:.72rem;letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:14px;
+}
+.v1 .arch-col-title  {color:var(--purple);}
+.v15 .arch-col-title {color:var(--blue);}
+.v2 .arch-col-title  {color:var(--green);}
+
+.ablock{
+  background:#0d0d0d;
+  border:1px solid var(--border2);
+  border-radius:7px;
+  padding:9px 11px;
+  margin-bottom:6px;
+  font-size:.7rem;
+}
+.ablock-label{
+  font-size:.58rem;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--dim);
+  margin-bottom:5px;
+}
+.ablock-item{
+  color:var(--text);
+  padding-left:12px;
+  position:relative;
+  line-height:1.9;
+  display:block;
+}
+.ablock-item::before{content:'▸ ';color:var(--cyan);position:absolute;left:0;}
+.new{color:var(--green);font-size:.58rem;letter-spacing:1px;margin-left:4px;}
+.opt{color:var(--orange);font-size:.58rem;letter-spacing:1px;margin-left:4px;}
+
+.aconnector{
+  text-align:center;color:var(--cyan);
+  font-size:.65rem;letter-spacing:1px;
+  opacity:.5;padding:2px 0;margin:0;
+}
+
+.arch-cost{
+  margin-top:auto;
+  padding-top:10px;
+  border-top:1px solid var(--border2);
+  margin-top:10px;
+}
+.arch-cost .cl{font-size:.6rem;color:var(--dim);letter-spacing:1.5px;text-transform:uppercase;}
+.arch-cost .cv{
+  font-family:'Orbitron',monospace;
+  font-size:1.15rem;font-weight:900;
+}
+.v1 .cv  {color:var(--purple);text-shadow:0 0 8px rgba(176,38,255,.5);}
+.v15 .cv {color:var(--blue);text-shadow:0 0 8px rgba(0,191,255,.5);}
+.v2 .cv  {color:var(--green);text-shadow:0 0 8px rgba(57,255,20,.5);}
+
+/* ── CALLOUTS ───────────────────────────── */
+.callout{
+  background:#0d0800;
+  border:1px solid rgba(255,107,0,.35);
+  border-radius:8px;
+  padding:11px 15px;
+  margin:12px 0;
+  font-size:.72rem;
+  color:#c4a07a;
+  line-height:1.7;
+}
+.callout::before{content:'⚠  ';color:var(--orange);}
+
+.info{
+  background:rgba(0,229,255,.03);
+  border:1px solid rgba(0,229,255,.18);
+  border-radius:8px;
+  padding:11px 15px;
+  margin:12px 0;
+  font-size:.72rem;
+  color:var(--muted);
+  line-height:1.7;
+}
+.info::before{content:'ℹ  ';color:var(--cyan);}
+
+/* ── TABLES ─────────────────────────────── */
+table{
+  width:100%;border-collapse:collapse;
+  font-size:.72rem;margin-bottom:6px;
+}
+thead th{
+  background:#0c0c0c;
+  padding:9px 11px;
+  text-align:left;
+  color:var(--dim);
+  font-size:.6rem;letter-spacing:2px;text-transform:uppercase;
+  border-bottom:1px solid var(--border2);
+}
+thead th.r{text-align:right;}
+tbody tr{border-bottom:1px solid #0c0c0c;transition:background .12s;}
+tbody tr:hover{background:rgba(0,229,255,.025);}
+tbody td{padding:8px 11px;vertical-align:top;}
+td.r{text-align:right;white-space:nowrap;}
+
+.pn{color:var(--text);font-weight:700;}
+.ps{color:var(--muted);font-size:.67rem;display:block;margin-top:2px;line-height:1.5;}
+.pnote{color:#444;font-size:.64rem;font-style:italic;display:block;margin-top:2px;line-height:1.5;}
+
+.qty{
+  display:inline-block;
+  background:rgba(0,229,255,.09);
+  color:var(--cyan);
+  border-radius:4px;
+  padding:1px 7px;font-size:.67rem;
+}
+.uc{color:var(--muted);}
+.ec{color:var(--text);font-weight:700;}
+
+.subtotal td{
+  background:#0c0c0c !important;
+  padding:9px 11px;
+  border-top:1px solid var(--border2);
+  border-bottom:1px solid var(--border2);
+}
+.stl{color:var(--muted);font-size:.62rem;letter-spacing:1.5px;text-transform:uppercase;}
+.stv{
+  color:var(--cyan) !important;
+  font-family:'Orbitron',monospace;
+  font-size:.88rem;font-weight:700;
+  text-shadow:0 0 8px rgba(0,229,255,.4);
+}
+
+.fn{font-size:.62rem;color:#3a3a3a;margin-top:5px;font-style:italic;}
+
+/* ── TOTALS GRID ────────────────────────── */
+.totals-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin:28px 0;
+}
+.tc{
+  background:var(--bg2);
+  border-radius:12px;
+  padding:20px 18px;
+}
+.tc.v1c  {border:1px solid rgba(176,38,255,.4);box-shadow:0 0 22px rgba(176,38,255,.08);}
+.tc.v15c {border:1px solid rgba(0,191,255,.4);box-shadow:0 0 22px rgba(0,191,255,.08);}
+.tc.v2c  {border:1px solid rgba(57,255,20,.4);box-shadow:0 0 22px rgba(57,255,20,.08);}
+
+.tc-title{
+  font-family:'Orbitron',monospace;
+  font-size:.72rem;letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:14px;
+  padding-bottom:10px;
+  border-bottom:1px solid var(--border2);
+}
+.v1c  .tc-title {color:var(--purple);}
+.v15c .tc-title {color:var(--blue);}
+.v2c  .tc-title {color:var(--green);}
+
+.tl{
+  display:flex;justify-content:space-between;
+  padding:5px 0;
+  border-bottom:1px solid #0d0d0d;
+  font-size:.7rem;
+}
+.tl:last-of-type{border-bottom:none;}
+.tl .ll{color:var(--muted);}
+.tl .lv{color:var(--text);}
+
+.gt{
+  margin-top:12px;padding-top:10px;
+  border-top:1px solid var(--border2);
+  display:flex;justify-content:space-between;align-items:baseline;
+}
+.gt .gl{font-size:.6rem;color:var(--dim);letter-spacing:1.5px;text-transform:uppercase;}
+.gt .gv{
+  font-family:'Orbitron',monospace;
+  font-size:1.45rem;font-weight:900;
+}
+.v1c  .gv {color:var(--purple);text-shadow:0 0 12px rgba(176,38,255,.5);}
+.v15c .gv {color:var(--blue);text-shadow:0 0 12px rgba(0,191,255,.5);}
+.v2c  .gv {color:var(--green);text-shadow:0 0 12px rgba(57,255,20,.5);}
+
+.mg{font-size:.62rem;color:#3a3a3a;margin-top:8px;font-style:italic;}
+
+@media(max-width:780px){
+  .arch-grid,.totals-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <h1>EXOTIC <em>OS</em></h1>
+  <p>Hardware Bill of Materials &amp; System Architecture — All Versions</p>
+</div>
+
+<!-- ═══════════════ DIAGRAMS ═══════════════ -->
+<div class="section-eyebrow">System Architecture</div>
+<h2>Version Diagrams</h2>
+
+<div class="diagram-wrap">
+  <div class="arch-grid">
+
+    <!-- V1 -->
+    <div class="arch-col v1">
+      <div class="arch-col-title">V1 — Ball Python Edition</div>
+
+      <div class="ablock">
+        <div class="ablock-label">Hub</div>
+        <span class="ablock-item">Pi 4 (4GB) + Active Cooling</span>
+        <span class="ablock-item">5&quot; DSI Touchscreen (official)</span>
+        <span class="ablock-item">32GB Endurance MicroSD</span>
+        <span class="ablock-item">USB-C 5.1V/3A PSU</span>
+      </div>
+
+      <div class="aconnector">↕ Wi-Fi / Ethernet / MQTT</div>
+
+      <div class="ablock">
+        <div class="ablock-label">Node (per enclosure)</div>
+        <span class="ablock-item">ESP32-S3 Microcontroller</span>
+        <span class="ablock-item">4× Crydom D2410 SSR</span>
+        <span class="ablock-item">LM393 Over-Temp Comparator</span>
+        <span class="ablock-item">91°C Thermal Fuse (one-shot)</span>
+        <span class="ablock-item">1.69&quot; ST7789 Status Display</span>
+        <span class="ablock-item">Momentary Ack Button</span>
+      </div>
+
+      <div class="aconnector">↕ STEMMA QT / I²C (6ft runs)</div>
+
+      <div class="ablock">
+        <div class="ablock-label">Sensors (per kit)</div>
+        <span class="ablock-item">2× SHT40 Temp/Humidity</span>
+        <span class="ablock-item">1× AS7331 UVB Spectral</span>
+        <span class="ablock-item">JGS1 Quartz Disc (UV window)</span>
+        <span class="ablock-item">3D-Printed Mounts</span>
+      </div>
+
+      <div class="ablock">
+        <div class="ablock-label">Safety (triple-redundant)</div>
+        <span class="ablock-item">SW: ESP32 Dead-Man Watchdog</span>
+        <span class="ablock-item">HW: LM393 Comparator Cutoff</span>
+        <span class="ablock-item">HW: Thermal Fuse 91°C Inline</span>
+        <span class="ablock-item">HW: 10kΩ Pull-Downs (off at 0V)</span>
+      </div>
+
+      <div class="arch-cost">
+        <div class="cl">Consumable BOM / Kit</div>
+        <div class="cv">$379.95</div>
+      </div>
+    </div>
+
+    <!-- V1.5 -->
+    <div class="arch-col v15">
+      <div class="arch-col-title">V1.5 — Multi-Species + AI</div>
+
+      <div class="ablock">
+        <div class="ablock-label">Hub (same hardware)</div>
+        <span class="ablock-item">Pi 4 (4GB) + Active Cooling</span>
+        <span class="ablock-item">5&quot; DSI Touchscreen</span>
+        <span class="ablock-item">64GB MicroSD (upgraded)<span class="new">[NEW]</span></span>
+        <span class="ablock-item">USB-C 5.1V/3A PSU</span>
+      </div>
+
+      <div class="aconnector">↕ Wi-Fi + Cloud API (opt-in)</div>
+
+      <div class="ablock">
+        <div class="ablock-label">AI Advisor (software)<span class="new">[NEW]</span></div>
+        <span class="ablock-item">Cloud LLM API (OpenAI / Anthropic)</span>
+        <span class="ablock-item">RAG: vetted care-guide DB</span>
+        <span class="ablock-item">Local STT via HA Assist</span>
+        <span class="ablock-item">Voice setup wizard (V1 carry-over)</span>
+      </div>
+
+      <div class="ablock">
+        <div class="ablock-label">Node (same + 1 sensor)</div>
+        <span class="ablock-item">ESP32-S3 + 4× SSR (unchanged)</span>
+        <span class="ablock-item">1.69&quot; Display + Ack Button</span>
+        <span class="ablock-item">+1 SHT40 Room Ambient<span class="new">[NEW]</span></span>
+      </div>
+
+      <div class="ablock">
+        <div class="ablock-label">Sensors (same)</div>
+        <span class="ablock-item">2× SHT40 + 1× AS7331 UVB</span>
+        <span class="ablock-item">Species: Ball Python + Crestie</span>
+      </div>
+
+      <div class="ablock">
+        <div class="ablock-label">Ambient-Aware Features<span class="new">[NEW]</span></div>
+        <span class="ablock-item">Hot-day anticipatory cooling</span>
+        <span class="ablock-item">Trend analysis + diagnostics</span>
+        <span class="ablock-item">Care reminders engine</span>
+      </div>
+
+      <div class="arch-cost">
+        <div class="cl">Delta BOM over V1</div>
+        <div class="cv">+$19.95</div>
+      </div>
+    </div>
+
+    <!-- V2+ -->
+    <div class="arch-col v2">
+      <div class="arch-col-title">V2+ — Full Platform</div>
+
+      <div class="ablock">
+        <div class="ablock-label">Hub (upgraded)<span class="new">[UPGRADED]</span></div>
+        <span class="ablock-item">Pi 5 (8GB recommended)<span class="new">[NEW]</span></span>
+        <span class="ablock-item">5&quot; DSI Touchscreen</span>
+        <span class="ablock-item">128GB NVMe SSD + HAT<span class="new">[NEW]</span></span>
+        <span class="ablock-item">Ollama local AI inference<span class="new">[NEW]</span></span>
+        <span class="ablock-item">USB-C 5V/5A 27W PSU<span class="new">[NEW]</span></span>
+      </div>
+
+      <div class="aconnector">↕ Wi-Fi / BLE (wireless option)</div>
+
+      <div class="ablock">
+        <div class="ablock-label">Node (upgraded)</div>
+        <span class="ablock-item">Custom PCB (replaces perf)<span class="new">[NEW]</span></span>
+        <span class="ablock-item">ESP32-S3 + 4× SSR + Safety</span>
+        <span class="ablock-item">ESP32-CAM (OV2640)<span class="new">[NEW]</span></span>
+        <span class="ablock-item">1.69&quot; Display + Ack Button</span>
+      </div>
+
+      <div class="ablock">
+        <div class="ablock-label">Sensors (expanded)</div>
+        <span class="ablock-item">2× SHT40 wired OR BLE<span class="opt">[OPTION]</span></span>
+        <span class="ablock-item">AS7331 UVB (wired)</span>
+        <span class="ablock-item">Capacitive Soil Moisture<span class="new">[NEW]</span></span>
+        <span class="ablock-item">LiFePO4 Battery (wireless SKU)<span class="opt">[OPTION]</span></span>
+      </div>
+
+      <div class="ablock">
+        <div class="ablock-label">V2 Features<span class="new">[NEW]</span></div>
+        <span class="ablock-item">Time-lapse + motion detection</span>
+        <span class="ablock-item">Shed detection CV model</span>
+        <span class="ablock-item">Multi-species (corn, mourning, etc.)</span>
+        <span class="ablock-item">Multi-enclosure unified view</span>
+      </div>
+
+      <div class="arch-cost">
+        <div class="cl">Delta BOM over V1.5</div>
+        <div class="cv">+$196.50</div>
+      </div>
+    </div>
+
+  </div><!-- arch-grid -->
+</div><!-- diagram-wrap -->
+
+
+<!-- ═══════════════ V1 BOM ═══════════════ -->
+<hr>
+<div class="section-eyebrow">Version 1 — Ball Python Edition</div>
+<h2>V1 Full Bill of Materials</h2>
+
+<div class="info">V1 ships as a complete kit: 1× Hub + 1× Node + full sensor suite + cables. Target retail $599–699. Prices are single-unit retail estimates (May 2026). One-time tooling (ferrule crimper ~$18, step drill ~$15) is excluded from per-unit BOM.</div>
+
+<!-- HUB -->
+<h3>🖥  Hub Subsystem</h3>
+<table>
+  <thead><tr>
+    <th>Component</th><th>Specification / Source</th>
+    <th class="r">Qty</th><th class="r">Unit $</th><th class="r">Ext $</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td><span class="pn">Raspberry Pi 4 Model B — 4GB</span><span class="ps">4GB LPDDR4X RAM. Project-specified. More than sufficient for V1 HA workloads.</span></td>
+      <td>Raspberry Pi Foundation / Digi-Key</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$55.00</td><td class="r ec">$55.00</td>
+    </tr>
+    <tr>
+      <td><span class="pn">5&quot; DSI Touchscreen — Official Raspberry Pi</span><span class="ps">800×480, 60fps, capacitive touch. DSI interface (no HDMI needed).</span><span class="pnote">Official Pi screen avoids the libinput ADS7846 calibration issue hit on the Hosyond prototype. Non-negotiable for V1.</span></td>
+      <td>Raspberry Pi Foundation</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$50.00</td><td class="r ec">$50.00</td>
+    </tr>
+    <tr>
+      <td><span class="pn">Active Cooling Case for Pi 4</span><span class="ps">GeeekPi Armor Lite or equiv — integrated fan + heatsinks, GPIO passthrough.</span></td>
+      <td>Amazon</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$15.00</td><td class="r ec">$15.00</td>
+    </tr>
+    <tr>
+      <td><span class="pn">MicroSD Card — 32GB A2</span><span class="ps">Samsung PRO Endurance or SanDisk MAX Endurance. Endurance-rated required.</span><span class="pnote">Standard cards fail within months under HA logging loads. A2-rated endurance cards essential.</span></td>
+      <td>Amazon</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$9.00</td><td class="r ec">$9.00</td>
+    </tr>
+    <tr>
+      <td><span class="pn">USB-C Power Supply — 5.1V 3A</span><span class="ps">Official Raspberry Pi USB-C PSU. Prevents throttling/undervoltage under display + Wi-Fi load.</span></td>
+      <td>Raspberry Pi Foundation</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$10.00</td><td class="r ec">$10.00</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr class="subtotal">
+      <td colspan="4" class="stl">HUB SUBSYSTEM SUBTOTAL</td>
+      <td class="r stv">$139.00</td>
+    </tr>
+  </tfoot>
+</table>
+
+<!-- NODE MAINS -->
+<h3>⚡  Node — Mains Power System</h3>
+<div class="callout">All mains components rated ≥15A continuous. Never substitute SSRs with Fotek clones or no-name parts — fake SSRs are a documented fire hazard. Genuine Crydom D2410 only. Wire gauge 14 AWG minimum throughout all mains runs, no exceptions.</div>
+<table>
+  <thead><tr>
+    <th>Component</th><th>Specification / Source</th>
+    <th class="r">Qty</th><th class="r">Unit $</th><th class="r">Ext $</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td><span class="pn">IEC C14 Panel Inlet w/ Fuse Holder</span><span class="ps">Qualtek 703W-00/13 or equiv. Accepts standard C13 PC power cord — replaceable, no hardwiring.</span></td>
+      <td>Digi-Key</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$4.50</td><td class="r ec">$4.50</td>
+    </tr>
+    <tr>
+      <td><span class="pn">5A 250V Slow-Blow Fuse — 5×20mm</span><span class="ps">Littelfuse 218005. Buy 2: one installed, one spare per kit.</span></td>
+      <td>Digi-Key</td>
+      <td class="r"><span class="qty">×2</span></td>
+      <td class="r uc">$0.60</td><td class="r ec">$1.20</td>
+    </tr>
+    <tr>
+      <td><span class="pn">MOV — Metal Oxide Varistor</span><span class="ps">Littelfuse V14E130 — 130V clamp, 14mm disc. Voltage spike suppression.</span><span class="pnote">Must be wired AFTER the fuse. MOV without upstream fuse can catch fire on sustained overvoltage.</span></td>
+      <td>Digi-Key</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$0.75</td><td class="r ec">$0.75</td>
+    </tr>
+    <tr>
+      <td><span class="pn">Thermal Fuse — 91°C One-Shot</span><span class="ps">Bourns SF-1206F091TF — 10A, inline on mains hot wire. Layer 3 safety.</span><span class="pnote">Irreversible. If this fires, a human must inspect before restoring power. That is intentional design.</span></td>
+      <td>Digi-Key</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$1.50</td><td class="r ec">$1.50</td>
+    </tr>
+    <tr>
+      <td><span class="pn">SSR — Solid State Relay 10A</span><span class="ps">Crydom D2410 — genuine industrial. 3–32VDC control, 24–280VAC load. Off at 0V control.</span><span class="pnote">Largest single BOM line. No cost substitution exists that is safe. Crydom SSRs are the product specification.</span></td>
+      <td>Digi-Key / Mouser</td>
+      <td class="r"><span class="qty">×4</span></td>
+      <td class="r uc">$18.00</td><td class="r ec">$72.00</td>
+    </tr>
+    <tr>
+      <td><span class="pn">NEMA 5-15R Recessed Panel Outlet</span><span class="ps">Leviton 5200-W single-outlet panel mount — one per SSR channel.</span></td>
+      <td>Amazon / Home Depot</td>
+      <td class="r"><span class="qty">×4</span></td>
+      <td class="r uc">$4.00</td><td class="r ec">$16.00</td>
+    </tr>
+    <tr>
+      <td><span class="pn">14 AWG Stranded Hook-Up Wire</span><span class="ps">Black + White + Green — 5ft each color. Handles 15A continuous, well above node load.</span></td>
+      <td>Amazon</td>
+      <td class="r"><span class="qty">×1 set</span></td>
+      <td class="r uc">$6.00</td><td class="r ec">$6.00</td>
+    </tr>
+    <tr>
+      <td><span class="pn">Terminal Block Kit — 6-position 15A</span><span class="ps">WAGO 281-604 or Phoenix Contact equiv. All mains connections ferrule-terminated — no bare wire.</span></td>
+      <td>Digi-Key / Amazon</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$4.00</td><td class="r ec">$4.00</td>
+    </tr>
+    <tr>
+      <td><span class="pn">Steel Enclosure — Hammond 1590Z</span><span class="ps">UL listed steel. All outlets and mains components housed inside. Chassis bonded to safety ground.</span></td>
+      <td>Digi-Key / Mouser</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$22.00</td><td class="r ec">$22.00</td>
+    </tr>
+    <tr>
+      <td><span class="pn">IEC C13 Power Cord — 6ft</span><span class="ps">Standard 3-prong PC power cable. Customer-replaceable. No hardwiring to mains outlet.</span></td>
+      <td>Amazon</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$5.00</td><td class="r ec">$5.00</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr class="subtotal">
+      <td colspan="4" class="stl">NODE MAINS SUBTOTAL</td>
+      <td class="r stv">$132.95</td>
+    </tr>
+  </tfoot>
+</table>
+
+<!-- NODE CONTROL -->
+<h3>🔌  Node — Control Circuit (Layer 1 &amp; 2 Safety)</h3>
+<table>
+  <thead><tr>
+    <th>Component</th><th>Specification / Source</th>
+    <th class="r">Qty</th><th class="r">Unit $</th><th class="r">Ext $</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td><span class="pn">10kΩ Pull-Down Resistors — SSR Inputs</span><span class="ps">1/4W 1% metal film. One per SSR control line.</span><span class="pnote">Layer 1 safety. SSR stays OFF when GPIO floats, boots, or is unpowered. Physics, not firmware.</span></td>
+      <td>Digi-Key</td>
+      <td class="r"><span class="qty">×4</span></td>
+      <td class="r uc">$0.05</td><td class="r ec">$0.20</td>
+    </tr>
+    <tr>
+      <td><span class="pn">LM393 Dual Comparator — DIP-8</span><span class="ps">Texas Instruments LM393P. Layer 2: cuts all SSR control lines on over-temp, independent of firmware.</span></td>
+      <td>Digi-Key</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$0.55</td><td class="r ec">$0.55</td>
+    </tr>
+    <tr>
+      <td><span class="pn">NTC Thermistor — 10kΩ B=3950</span><span class="ps">Vishay NTCLE100E3103JB0. Enclosure wall temperature sensor for comparator reference.</span></td>
+      <td>Digi-Key</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$1.00</td><td class="r ec">$1.00</td>
+    </tr>
+    <tr>
+      <td><span class="pn">Resistor Assortment</span><span class="ps">1kΩ, 3.3kΩ, 10kΩ, 15kΩ — 1/4W metal film, 2 of each for comparator divider network.</span></td>
+      <td>Digi-Key</td>
+      <td class="r"><span class="qty">×8</span></td>
+      <td class="r uc">$0.05</td><td class="r ec">$0.40</td>
+    </tr>
+    <tr>
+      <td><span class="pn">10kΩ Pull-Up — LM393 Output</span><span class="ps">1/4W metal film. Open-collector output of LM393 requires pull-up to VCC.</span></td>
+      <td>Digi-Key</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$0.05</td><td class="r ec">$0.05</td>
+    </tr>
+    <tr>
+      <td><span class="pn">IRLZ44N Logic-Level N-MOSFET — TO-220</span><span class="ps">International Rectifier IRLZ44NPBF. Switches common SSR GND line — comparator output drives gate.</span><span class="pnote">Logic-level gate: turns fully on at 3.3V. Do not substitute with non-logic-level part (e.g., IRF540) — won't fully switch at 3.3V.</span></td>
+      <td>Digi-Key</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$0.90</td><td class="r ec">$0.90</td>
+    </tr>
+    <tr>
+      <td><span class="pn">0.1µF Ceramic Decoupling Caps</span><span class="ps">50V MLCC — power supply decoupling on LM393 and ESP32 3.3V rail.</span></td>
+      <td>Digi-Key</td>
+      <td class="r"><span class="qty">×2</span></td>
+      <td class="r uc">$0.10</td><td class="r ec">$0.20</td>
+    </tr>
+    <tr>
+      <td><span class="pn">Perfboard — 5×7cm Double-Sided</span><span class="ps">Generic solderable perfboard for control circuit assembly.</span></td>
+      <td>Amazon</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$1.50</td><td class="r ec">$1.50</td>
+    </tr>
+    <tr>
+      <td><span class="pn">JST-XH 3-Pin Connector Pairs</span><span class="ps">For detachable NTC thermistor connection to control board.</span></td>
+      <td>Amazon</td>
+      <td class="r"><span class="qty">×2 pairs</span></td>
+      <td class="r uc">$0.40</td><td class="r ec">$0.80</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr class="subtotal">
+      <td colspan="4" class="stl">CONTROL CIRCUIT SUBTOTAL</td>
+      <td class="r stv">$5.60</td>
+    </tr>
+  </tfoot>
+</table>
+
+<!-- NODE MCU -->
+<h3>🎛  Node — Microcontroller, Display &amp; Interface</h3>
+<table>
+  <thead><tr>
+    <th>Component</th><th>Specification / Source</th>
+    <th class="r">Qty</th><th class="r">Unit $</th><th class="r">Ext $</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td><span class="pn">ESP32-S3 Development Board</span><span class="ps">Shillehtek ESP32-S3 Pre-Soldered headers — from project UVB BOM spec. USB-C, dual-core, Wi-Fi + BLE.</span><span class="pnote">Pre-soldered headers save ~30 min assembly per node at prototype quantities. Flash with ESPHome.</span></td>
+      <td>Amazon / AliExpress</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$10.00</td><td class="r ec">$10.00</td>
+    </tr>
+    <tr>
+      <td><span class="pn">1.69&quot; Color TFT Display — ST7789</span><span class="ps">240×280 resolution, SPI interface. Per-enclosure local status readout — temp, humidity, alert state.</span><span class="pnote">Generic ST7789 at this size widely available at $6–9. Same driver as standard ESPHome display libraries.</span></td>
+      <td>Amazon / AliExpress</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$7.50</td><td class="r ec">$7.50</td>
+    </tr>
+    <tr>
+      <td><span class="pn">Momentary Push Button — 12mm</span><span class="ps">Tactile momentary switch with cap. Alert acknowledgment. Connects to ESP32 GPIO.</span></td>
+      <td>Amazon</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$0.50</td><td class="r ec">$0.50</td>
+    </tr>
+    <tr>
+      <td><span class="pn">USB-C Power Supply — 5V 2A</span><span class="ps">For ESP32-S3 node logic power — separate circuit from mains relay board.</span></td>
+      <td>Amazon</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$7.00</td><td class="r ec">$7.00</td>
+    </tr>
+    <tr>
+      <td><span class="pn">USB-C Cable — 3ft</span><span class="ps">ESP32-S3 power cable from node PSU.</span></td>
+      <td>Amazon</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$3.00</td><td class="r ec">$3.00</td>
+    </tr>
+    <tr>
+      <td><span class="pn">Dupont / Jumper Wires — 20cm</span><span class="ps">Male-to-female assortment. Display SPI lines + button wiring from ESP32 to peripherals.</span></td>
+      <td>Amazon</td>
+      <td class="r"><span class="qty">×1 pack</span></td>
+      <td class="r uc">$2.00</td><td class="r ec">$2.00</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr class="subtotal">
+      <td colspan="4" class="stl">MCU + DISPLAY SUBTOTAL</td>
+      <td class="r stv">$30.00</td>
+    </tr>
+  </tfoot>
+</table>
+
+<!-- SENSORS -->
+<h3>🌡  Sensor Subsystem</h3>
+<div class="callout">Standard glass and acrylic block UVB completely. The JGS1 quartz disc is non-negotiable for accurate AS7331 readings. Do not use fritted or frosted quartz — opaque to UV. Do not substitute SHT30/31 for SHT40 — accuracy difference matters at the ball python 88–92°F alerting threshold.</div>
+<table>
+  <thead><tr>
+    <th>Component</th><th>Specification / Source</th>
+    <th class="r">Qty</th><th class="r">Unit $</th><th class="r">Ext $</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td><span class="pn">SHT40 Temp/Humidity — STEMMA QT (Hot Side)</span><span class="ps">Adafruit #4885. ±0.2°C / ±1.8% RH. I²C, STEMMA QT connector.</span><span class="pnote">SHT40 accuracy matters: at BP hot-side threshold of 88°F, ±0.2°C error is acceptable; SHT30's ±0.3°C is marginal.</span></td>
+      <td>Adafruit</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$6.95</td><td class="r ec">$6.95</td>
+    </tr>
+    <tr>
+      <td><span class="pn">SHT40 Temp/Humidity — STEMMA QT (Cool Side)</span><span class="ps">Adafruit #4885. Same spec — cool side gradient monitoring.</span></td>
+      <td>Adafruit</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$6.95</td><td class="r ec">$6.95</td>
+    </tr>
+    <tr>
+      <td><span class="pn">AS7331 UVB Spectral Sensor — Qwiic</span><span class="ps">SparkFun SEN-23517. True spectral UVA/UVB/UVC measurement. I²C / Qwiic compatible.</span><span class="pnote">No meaningful cheaper alternative exists for accurate UV spectral sensing. This is the correct and only part.</span></td>
+      <td>SparkFun</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$33.00</td><td class="r ec">$33.00</td>
+    </tr>
+    <tr>
+      <td><span class="pn">JGS1 Polished Quartz Disc — 15mm</span><span class="ps">Optical-grade UV-transparent window for AS7331 sensor mount housing.</span><span class="pnote">Critical. JGS1 only — polished, not fritted. Standard glass/acrylic blocks UVB entirely. Source: Amazon optical suppliers.</span></td>
+      <td>Amazon (optics)</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$5.00</td><td class="r ec">$5.00</td>
+    </tr>
+    <tr>
+      <td><span class="pn">STEMMA QT / Qwiic Cable — 200mm</span><span class="ps">Adafruit — 4-pin JST-SH 1.0mm. Daisy-chains sensors on I²C bus.</span></td>
+      <td>Adafruit</td>
+      <td class="r"><span class="qty">×3</span></td>
+      <td class="r uc">$1.50</td><td class="r ec">$4.50</td>
+    </tr>
+    <tr>
+      <td><span class="pn">STEMMA QT Extension Cable — 500mm</span><span class="ps">Adafruit — for spanning hot-side to cool-side distance in 36×18×18 enclosure (6ft total possible).</span></td>
+      <td>Adafruit</td>
+      <td class="r"><span class="qty">×2</span></td>
+      <td class="r uc">$2.00</td><td class="r ec">$4.00</td>
+    </tr>
+    <tr>
+      <td><span class="pn">3D-Printed Sensor Mounts</span><span class="ps">PETG or PLA — 2× SHT40 wall mounts + 1× AS7331 quartz housing. In-house print.</span><span class="pnote">Material cost estimate per set. PETG preferred over PLA in warm enclosures — higher heat deflection temp.</span></td>
+      <td>In-house print</td>
+      <td class="r"><span class="qty">×1 set</span></td>
+      <td class="r uc">$4.00</td><td class="r ec">$4.00</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr class="subtotal">
+      <td colspan="4" class="stl">SENSOR SUBSYSTEM SUBTOTAL</td>
+      <td class="r stv">$64.40</td>
+    </tr>
+  </tfoot>
+</table>
+
+<!-- MISC -->
+<h3>📦  Miscellaneous / Assembly</h3>
+<table>
+  <thead><tr>
+    <th>Component</th><th>Specification / Source</th>
+    <th class="r">Qty</th><th class="r">Unit $</th><th class="r">Ext $</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td><span class="pn">Heat Shrink Tubing Assortment</span><span class="ps">2:1 ratio, mixed sizes 1–6mm. Insulation on all soldered connections.</span></td>
+      <td>Amazon</td>
+      <td class="r"><span class="qty">×1 pack</span></td>
+      <td class="r uc">$2.00</td><td class="r ec">$2.00</td>
+    </tr>
+    <tr>
+      <td><span class="pn">Cable Ties — Nylon Assorted</span><span class="ps">Internal cable management inside Hammond enclosure and hub case.</span></td>
+      <td>Amazon</td>
+      <td class="r"><span class="qty">×1 pack</span></td>
+      <td class="r uc">$1.00</td><td class="r ec">$1.00</td>
+    </tr>
+    <tr>
+      <td><span class="pn">M3 Standoff + Screw Kit</span><span class="ps">For mounting Pi and display assembly to case. M3 ×10mm standoffs + M3 screws.</span></td>
+      <td>Amazon</td>
+      <td class="r"><span class="qty">×1 kit</span></td>
+      <td class="r uc">$3.00</td><td class="r ec">$3.00</td>
+    </tr>
+    <tr>
+      <td><span class="pn">Solder — 60/40 Rosin Core</span><span class="ps">0.8mm diameter. Per-unit consumable for control board assembly.</span></td>
+      <td>Amazon</td>
+      <td class="r"><span class="qty">×1 spool</span></td>
+      <td class="r uc">$2.00</td><td class="r ec">$2.00</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr class="subtotal">
+      <td colspan="4" class="stl">MISC / ASSEMBLY SUBTOTAL</td>
+      <td class="r stv">$8.00</td>
+    </tr>
+  </tfoot>
+</table>
+<p class="fn">⚠ One-time tooling (NOT included in per-unit BOM): Ferrule crimping kit ~$18 (required before first build), step drill bit ~$15, multimeter ~$25 if not already owned. Required before first prototype build.</p>
+
+
+<!-- ═══════════════ V1.5 DELTA ═══════════════ -->
+<hr>
+<div class="section-eyebrow">Version 1.5 — Multi-Species + AI Advisor</div>
+<h2>V1.5 Delta BOM — Additions Over V1</h2>
+
+<div class="info">V1.5 is primarily a software release. The hardware delta per kit is minimal. Value is in the AI advisor, crested gecko species profile, trend analysis, and ambient-aware heat management. Cloud LLM API is an ongoing operational cost, not a BOM line.</div>
+
+<h3>➕  V1.5 Hardware Additions</h3>
+<table>
+  <thead><tr>
+    <th>Component</th><th>Specification / Source</th>
+    <th class="r">Qty</th><th class="r">Unit $</th><th class="r">Ext $</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td><span class="pn">SHT40 Room Ambient Sensor — STEMMA QT</span><span class="ps">Adafruit #4885. Mounted outside the enclosure — monitors ambient room temperature.</span><span class="pnote">Required for V1.5 ambient-aware heat management and hot-day anticipatory cooling. Cannot be inferred from enclosure sensors alone.</span></td>
+      <td>Adafruit</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$6.95</td><td class="r ec">$6.95</td>
+    </tr>
+    <tr>
+      <td><span class="pn">MicroSD Card — 64GB A2 (Hub Upgrade)</span><span class="ps">Samsung PRO Endurance 64GB. Replaces 32GB for expanded trend data storage + LLM response cache.</span><span class="pnote">Only required for new V1.5 kits. Existing V1 hubs can keep 32GB until the drive fills over time.</span></td>
+      <td>Amazon</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$13.00</td><td class="r ec">$13.00</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr class="subtotal">
+      <td colspan="4" class="stl">V1.5 HARDWARE DELTA SUBTOTAL</td>
+      <td class="r stv">$19.95</td>
+    </tr>
+  </tfoot>
+</table>
+<p class="fn">Note: Cloud LLM API (OpenAI / Anthropic) is an operational cost, not BOM. Budget approximately $0.50–2.00 per user per month at expected query volume. Local LLM on Pi 4 is not feasible; Pi 5 upgrade (V2+) enables full local inference.</p>
+
+
+<!-- ═══════════════ V2+ DELTA ═══════════════ -->
+<hr>
+<div class="section-eyebrow">Version 2+ — Full Platform</div>
+<h2>V2+ Delta BOM — Additions Over V1.5</h2>
+
+<div class="info">V2+ involves meaningful hardware investment: Pi 5 hub for local AI inference, custom PCB replacing perfboard, ESP32-CAM for computer vision, soil moisture sensing, and an optional wireless sensor SKU. Hub upgrade is the largest cost driver.</div>
+
+<h3>➕  V2+ Hub Upgrades</h3>
+<table>
+  <thead><tr>
+    <th>Component</th><th>Specification / Source</th>
+    <th class="r">Qty</th><th class="r">Unit $</th><th class="r">Ext $</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td><span class="pn">Raspberry Pi 5 — 8GB</span><span class="ps">Replaces Pi 4. 8GB RAM recommended for running Ollama local AI models alongside HA.</span><span class="pnote">Project decision: Pi 5 reserved for V2 when AI inference workload justifies the upgrade. Pi 4 remains fine for V1/V1.5.</span></td>
+      <td>Raspberry Pi Foundation</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$80.00</td><td class="r ec">$80.00</td>
+    </tr>
+    <tr>
+      <td><span class="pn">Pi 5 Active Cooling Case</span><span class="ps">Pi 5 requires different case form factor from Pi 4. GeeekPi or Argon ONE V3 for Pi 5.</span></td>
+      <td>Amazon</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$18.00</td><td class="r ec">$18.00</td>
+    </tr>
+    <tr>
+      <td><span class="pn">NVMe SSD — 128GB M.2 2230</span><span class="ps">WD SN740 or Crucial P3 Plus 2230. Fast local storage for Ollama AI models + long-term sensor history.</span></td>
+      <td>Amazon</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$22.00</td><td class="r ec">$22.00</td>
+    </tr>
+    <tr>
+      <td><span class="pn">Pi 5 NVMe HAT</span><span class="ps">Pimoroni NVMe Base or Waveshare equiv — M.2 2230/2242 via Pi 5 PCIe FFC connector.</span></td>
+      <td>Pimoroni / Amazon</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$15.00</td><td class="r ec">$15.00</td>
+    </tr>
+    <tr>
+      <td><span class="pn">Pi 5 USB-C PSU — 5V 5A 27W</span><span class="ps">Raspberry Pi official Pi 5 PSU. Pi 5 requires higher current — do not use Pi 4 PSU.</span></td>
+      <td>Raspberry Pi Foundation</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$12.00</td><td class="r ec">$12.00</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr class="subtotal">
+      <td colspan="4" class="stl">V2+ HUB UPGRADE SUBTOTAL</td>
+      <td class="r stv">$147.00</td>
+    </tr>
+  </tfoot>
+</table>
+
+<h3>➕  V2+ Node Upgrades</h3>
+<table>
+  <thead><tr>
+    <th>Component</th><th>Specification / Source</th>
+    <th class="r">Qty</th><th class="r">Unit $</th><th class="r">Ext $</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td><span class="pn">Custom PCB — Node Control Board</span><span class="ps">Replaces perfboard. Gerbers manufactured by JLCPCB or PCBWay. Min order 5 units.</span><span class="pnote">Break-even vs perfboard labor at ~8–10 units. Eliminates wiring errors, reduces build time ~2hrs per node. Critical for scaling.</span></td>
+      <td>JLCPCB (5-unit MOQ)</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$8.00</td><td class="r ec">$8.00</td>
+    </tr>
+    <tr>
+      <td><span class="pn">ESP32-CAM Module — AI-Thinker</span><span class="ps">OV2640 2MP camera + ESP32. Time-lapse recording, motion detection, shed detection CV.</span></td>
+      <td>Amazon / AliExpress</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$9.00</td><td class="r ec">$9.00</td>
+    </tr>
+    <tr>
+      <td><span class="pn">Wide-Angle M12 Lens + Mount Hardware</span><span class="ps">2.1mm M12 lens for wider enclosure FOV + 3D-printed enclosure mount bracket.</span></td>
+      <td>Amazon</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$5.00</td><td class="r ec">$5.00</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr class="subtotal">
+      <td colspan="4" class="stl">V2+ NODE UPGRADE SUBTOTAL</td>
+      <td class="r stv">$22.00</td>
+    </tr>
+  </tfoot>
+</table>
+
+<h3>➕  V2+ Sensor Additions</h3>
+<table>
+  <thead><tr>
+    <th>Component</th><th>Specification / Source</th>
+    <th class="r">Qty</th><th class="r">Unit $</th><th class="r">Ext $</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td><span class="pn">Capacitive Soil Moisture Sensor — STEMMA</span><span class="ps">Adafruit #4026. I²C capacitive sensor — does not corrode in humid enclosures.</span><span class="pnote">Use capacitive ONLY. Resistive soil sensors corrode rapidly in the humidity levels required for ball pythons. Adafruit #4026 is proven.</span></td>
+      <td>Adafruit #4026</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$7.50</td><td class="r ec">$7.50</td>
+    </tr>
+    <tr>
+      <td><span class="pn">18650 LiFePO4 Cell — 3.2V 1500mAh</span><span class="ps">For wireless sensor upgrade SKU only. LiFePO4 chemistry — thermally stable in warm enclosures.</span><span class="pnote">Li-Ion (standard 18650) has elevated thermal runaway risk in a warm enclosure. LiFePO4 is the safe chemistry here.</span></td>
+      <td>Amazon</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$9.00</td><td class="r ec">$9.00</td>
+    </tr>
+    <tr>
+      <td><span class="pn">TP5000 LiFePO4 Charger Module</span><span class="ps">Charges 3.2V LiFePO4 chemistry correctly — NOT TP4056 (Li-Ion charger, wrong voltage for LiFePO4).</span><span class="pnote">Common mistake: TP4056 is ubiquitous and cheap but designed for 4.2V Li-Ion. Will overcharge LiFePO4 cells. TP5000 only.</span></td>
+      <td>Amazon</td>
+      <td class="r"><span class="qty">×1</span></td>
+      <td class="r uc">$11.00</td><td class="r ec">$11.00</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr class="subtotal">
+      <td colspan="4" class="stl">V2+ SENSOR ADDITIONS SUBTOTAL</td>
+      <td class="r stv">$27.50</td>
+    </tr>
+  </tfoot>
+</table>
+
+
+<!-- ═══════════════ TOTALS ═══════════════ -->
+<hr>
+<div class="section-eyebrow">Cost Summary</div>
+<h2>Grand Totals — All Versions</h2>
+
+<div class="totals-grid">
+
+  <div class="tc v1c">
+    <div class="tc-title">V1 — Ball Python Edition</div>
+    <div class="tl"><span class="ll">Hub Subsystem</span><span class="lv">$139.00</span></div>
+    <div class="tl"><span class="ll">Node — Mains Power</span><span class="lv">$132.95</span></div>
+    <div class="tl"><span class="ll">Node — Control Circuit</span><span class="lv">$5.60</span></div>
+    <div class="tl"><span class="ll">Node — MCU + Display</span><span class="lv">$30.00</span></div>
+    <div class="tl"><span class="ll">Sensor Subsystem</span><span class="lv">$64.40</span></div>
+    <div class="tl"><span class="ll">Misc / Assembly</span><span class="lv">$8.00</span></div>
+    <div class="gt">
+      <span class="gl">Consumable BOM / Kit</span>
+      <span class="gv">$379.95</span>
+    </div>
+    <p class="mg">Target retail $599–699 → ~37–46% gross margin before labor + packaging</p>
+  </div>
+
+  <div class="tc v15c">
+    <div class="tc-title">V1.5 — Multi-Species + AI</div>
+    <div class="tl"><span class="ll">V1 Base BOM</span><span class="lv">$379.95</span></div>
+    <div class="tl"><span class="ll">SHT40 Room Ambient Sensor</span><span class="lv">$6.95</span></div>
+    <div class="tl"><span class="ll">64GB MicroSD (Hub)</span><span class="lv">$13.00</span></div>
+    <div class="tl"><span class="ll">Cloud LLM API (operational)</span><span class="lv">~$1–2/mo/user</span></div>
+    <div class="gt">
+      <span class="gl">Consumable BOM / Kit</span>
+      <span class="gv">$399.90</span>
+    </div>
+    <p class="mg">Hardware delta is minimal. Value is in software. Retail price increase TBD by feature set.</p>
+  </div>
+
+  <div class="tc v2c">
+    <div class="tc-title">V2+ — Full Platform</div>
+    <div class="tl"><span class="ll">V1.5 Base BOM</span><span class="lv">$399.90</span></div>
+    <div class="tl"><span class="ll">Pi 5 Hub Upgrade</span><span class="lv">$147.00</span></div>
+    <div class="tl"><span class="ll">Custom PCB + Camera</span><span class="lv">$22.00</span></div>
+    <div class="tl"><span class="ll">Soil + Wireless Option</span><span class="lv">$27.50</span></div>
+    <div class="gt">
+      <span class="gl">Consumable BOM / Kit</span>
+      <span class="gv">~$596.40</span>
+    </div>
+    <p class="mg">V2 requires a price increase or tiered Pro SKU. Retail likely $799–899 for full platform.</p>
+  </div>
+
+</div>
+
+<!-- NOTES -->
+<div class="info">All prices are single-unit retail estimates as of May 2026. Volume purchasing (particularly Crydom SSRs and Adafruit breakouts at 10+ units) will reduce BOM meaningfully. Assembly labor and packaging not included. Prices sourced from Digi-Key, Adafruit, SparkFun, and Amazon.</div>
+<div class="callout">The 4× Crydom D2410 SSRs ($72) represent ~19% of the total V1 kit BOM. This is a non-negotiable safety component. The correct long-term cost-reduction strategy is volume purchasing and eventual PCB design that integrates SSR-equivalent switching — not substituting with counterfeit or clone parts.</div>
+
+</body>
+</html>

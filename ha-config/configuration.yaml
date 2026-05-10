@@ -1,0 +1,143 @@
+homeassistant:
+  auth_providers:
+    - type: trusted_networks
+      trusted_networks:
+        - 192.168.68.58
+      allow_bypass_login: true
+    - type: homeassistant
+
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+mqtt:
+  sensor:
+    - name: "Mobile Panel Battery"
+      state_topic: "pisugar/battery"
+      unit_of_measurement: "%"
+      device_class: battery
+      value_template: "{{ value | round(1) }}"
+
+    - name: "Mobile Panel Voltage"
+      state_topic: "pisugar/voltage"
+      unit_of_measurement: "V"
+      device_class: voltage
+      value_template: "{{ value | round(2) }}"
+
+  binary_sensor:
+    - name: "Mobile Panel Charging"
+      state_topic: "pisugar/charging"
+      payload_on: "true"
+      payload_off: "false"
+      device_class: battery_charging
+
+# ── Exotic OS: Cora Heat Control ──────────────────────────
+timer:
+  cora_pid_cycle_timer:
+    name: "Cora PID Cycle Timer"
+    icon: mdi:timer
+  cora_pid_on_timer:
+    name: "Cora PID On Timer"
+    icon: mdi:timer-outline
+
+input_boolean:
+  cora_pid_enabled:
+    name: "Cora Heat Control Enabled"
+    icon: mdi:thermostat
+
+input_select:
+  cora_heater_type:
+    name: "Cora Heater Type"
+    icon: mdi:heat-wave
+    options:
+      - "CHE (Ceramic Heat Emitter)"
+      - "Deep Heat Projector"
+      - "Radiant Heat Panel"
+      - "Heat Mat"
+      - "Under Tank Heater"
+      - "Basking Lamp"
+    initial: "CHE (Ceramic Heat Emitter)"
+  cora_temp_sensor:
+    name: "Cora Control Sensor"
+    icon: mdi:thermometer
+    options:
+      - "sensor.thermo_hygrometer_8bdc3c_h5072_75_tempc"
+      - "sensor.thermo_hygrometer_87a7fb_h5072_75_tempc"
+    initial: "sensor.thermo_hygrometer_8bdc3c_h5072_75_tempc"
+  cora_relay:
+    name: "Cora Heat Relay"
+    icon: mdi:power-socket-us
+    options:
+      - "switch.cora_che_socket_1"
+    initial: "switch.cora_che_socket_1"
+
+input_number:
+  cora_pid_setpoint:
+    name: "Cora Target Temperature"
+    min: 70
+    max: 95
+    step: 0.5
+    unit_of_measurement: "°"
+    icon: mdi:thermometer-chevron-up
+    initial: 86
+  cora_pid_kp:
+    name: "Cora Kp (Proportional)"
+    min: 0
+    max: 50
+    step: 0.1
+    icon: mdi:alpha-p-circle
+    initial: 10
+  cora_pid_ki:
+    name: "Cora Ki (Integral)"
+    min: 0
+    max: 5
+    step: 0.005
+    icon: mdi:alpha-i-circle
+    initial: 0.05
+  cora_pid_kd:
+    name: "Cora Kd (Derivative)"
+    min: 0
+    max: 200
+    step: 1
+    icon: mdi:alpha-d-circle
+    initial: 50
+  cora_pid_cycle_time:
+    name: "Cora Cycle Time"
+    min: 1
+    max: 15
+    step: 1
+    unit_of_measurement: "min"
+    icon: mdi:clock-outline
+    initial: 5
+  cora_pid_integral:
+    name: "Cora PID Integral (internal)"
+    min: -1000
+    max: 1000
+    step: 0.001
+    initial: 0
+  cora_pid_prev_error:
+    name: "Cora PID Prev Error (internal)"
+    min: -100
+    max: 100
+    step: 0.001
+    initial: 0
+  cora_pid_output:
+    name: "Cora PID Output %"
+    min: 0
+    max: 100
+    step: 0.1
+    unit_of_measurement: "%"
+    icon: mdi:gauge
+    initial: 0
+
+go2rtc:
+  url: http://192.168.68.62:1984
+
+

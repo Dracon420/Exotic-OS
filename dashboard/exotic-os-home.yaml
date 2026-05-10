@@ -1,0 +1,383 @@
+kiosk_mode:
+  hide_header: true
+  hide_sidebar: true
+  admin_settings:
+    hide_header: true
+    hide_sidebar: true
+title: Exotic OS
+views:
+- title: Home
+  path: home
+  type: panel
+  cards:
+  - type: vertical-stack
+    cards:
+    - type: custom:button-card
+      name: Exotic OS
+      label: Smart husbandry, simplified
+      show_label: true
+      show_name: true
+      show_icon: true
+      icon: mdi:orbit
+      styles:
+        card:
+        - background: 'linear-gradient(135deg, #050505 0%, #121212 100%)'
+        - border: none
+        - padding: 25px 35px
+        - border-radius: 12px
+        - margin-bottom: 12px
+        grid:
+        - grid-template-columns: auto 85px
+        - grid-template-areas: '"n i" "l i"'
+        name:
+        - color: '#e8f4f8'
+        - font-family: '"Segoe UI", sans-serif'
+        - font-size: 36px
+        - font-weight: '900'
+        - justify-self: center
+        label:
+        - color: '#a0b0b5'
+        - font-size: 18px
+        - justify-self: center
+        icon:
+        - color: '#00E5FF'
+        - width: 75px
+        - justify-self: end
+        - animation: breathing 3s ease-in-out infinite
+        - will-change: transform, filter
+      extra_styles: "@keyframes breathing {\n  0% { transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0px 0px 4px #00E5FF);\
+        \ }\n  50% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0px 0px 15px #00E5FF); }\n  100% { transform:\
+        \ scale(0.9); opacity: 0.7; filter: drop-shadow(0px 0px 4px #00E5FF); }\n}\n"
+    - type: custom:swipe-card
+      parameters:
+        centeredSlides: false
+        slidesPerView: 4
+        spaceBetween: 8
+        freeMode: true
+      cards:
+      - type: custom:button-card
+        entity: sensor.thermo_hygrometer_8bdc3c_h5072_75_tempc
+        name: Miss Cora
+        icon: mdi:snake
+        show_label: true
+        label: '[[[ return parseFloat(entity.state).toFixed(1) + ''°F | '' + parseFloat(states[''sensor.thermo_hygrometer_8bdc3c_h5072_75_hum''].state).toFixed(0)
+          + ''%'' ]]]'
+        tap_action:
+          action: navigate
+          navigation_path: /coras-enclosure/0
+        styles:
+          card:
+          - background: '#080808'
+          - border-radius: 12px
+          - padding: 15px
+          - height: 200px
+          name:
+          - color: '#e8f4f8'
+          - font-size: 20px
+          - font-weight: bold
+          label:
+          - color: '#a0b0b5'
+          - font-size: 16px
+          - margin-top: 12px
+          icon:
+          - color: '#B026FF'
+          - width: 50px
+        card_mod:
+          style: "ha-card {\n  border: none;\n  {% set t = states('sensor.thermo_hygrometer_8bdc3c_h5072_75_tempc') | float(0)\
+            \ %}\n  {% set h = states('sensor.thermo_hygrometer_8bdc3c_h5072_75_hum') | float(0) %}\n  {% if t >= 75 and t\
+            \ <= 92 and h >= 50 and h <= 70 %}\n    box-shadow: 0px 0px 18px rgba(176, 38, 255, 0.4) !important;\n  {% else\
+            \ %}\n    box-shadow: 0px 0px 22px rgba(255, 107, 0, 0.7) !important;\n  {% endif %}\n}\n"
+      - type: custom:button-card
+        entity: sensor.smart_thermo_hygrometer_461688_h5100_01_02_04_05_08_74_77_tempc
+        name: Sonic
+        icon: mdi:leaf
+        show_label: true
+        label: '[[[ return parseFloat(entity.state).toFixed(1) + ''°F | '' + parseFloat(states[''sensor.smart_thermo_hygrometer_461688_h5100_01_02_04_05_08_74_77_hum''].state).toFixed(0)
+          + ''%'' ]]]'
+        tap_action:
+          action: navigate
+          navigation_path: /sonics-enclosure/0
+        styles:
+          card:
+          - background: '#080808'
+          - border-radius: 12px
+          - padding: 15px
+          - height: 200px
+          name:
+          - color: '#e8f4f8'
+          - font-size: 20px
+          - font-weight: bold
+          label:
+          - color: '#a0b0b5'
+          - font-size: 16px
+          - margin-top: 12px
+          icon:
+          - color: '#39FF14'
+          - width: 50px
+        card_mod:
+          style: "ha-card {\n  border: none;\n  {% set t = states('sensor.smart_thermo_hygrometer_461688_h5100_01_02_04_05_08_74_77_tempc')\
+            \ | float(0) %}\n  {% set h = states('sensor.smart_thermo_hygrometer_461688_h5100_01_02_04_05_08_74_77_hum') |\
+            \ float(0) %}\n  {% if t >= 70 and t <= 78 and h >= 60 and h <= 80 %}\n    box-shadow: 0px 0px 18px rgba(57, 255,\
+            \ 20, 0.4) !important;\n  {% else %}\n    box-shadow: 0px 0px 22px rgba(255, 107, 0, 0.7) !important;\n  {% endif\
+            \ %}\n}\n"
+      - type: custom:button-card
+        entity: sensor.thermo_hygrometer_e81c61_h5072_75_tempc
+        name: Motley
+        icon: mdi:snake
+        show_label: true
+        label: '[[[ return parseFloat(entity.state).toFixed(1) + ''°F | '' + parseFloat(states[''sensor.thermo_hygrometer_e81c61_h5072_75_hum''].state).toFixed(0)
+          + ''%'' ]]]'
+        tap_action:
+          action: navigate
+          navigation_path: /motley-corns-enclosure/0
+        styles:
+          card:
+          - background: '#080808'
+          - border-radius: 12px
+          - padding: 15px
+          - height: 200px
+          name:
+          - color: '#e8f4f8'
+          - font-size: 20px
+          - font-weight: bold
+          label:
+          - color: '#a0b0b5'
+          - font-size: 16px
+          - margin-top: 12px
+          icon:
+          - color: '#FF6B00'
+          - width: 50px
+        card_mod:
+          style: "ha-card {\n  border: none;\n  {% set t = states('sensor.thermo_hygrometer_e81c61_h5072_75_tempc') | float(0)\
+            \ %}\n  {% set h = states('sensor.thermo_hygrometer_e81c61_h5072_75_hum') | float(0) %}\n  {% if t >= 75 and t\
+            \ <= 85 and h >= 40 and h <= 60 %}\n    box-shadow: 0px 0px 18px rgba(255, 107, 0, 0.4) !important;\n  {% else\
+            \ %}\n    box-shadow: 0px 0px 22px rgba(255, 107, 0, 0.7) !important;\n  {% endif %}\n}\n"
+      - type: custom:button-card
+        entity: sensor.smart_thermo_hygrometer_c6332c_h5100_01_02_04_05_08_74_77_tempc
+        name: Confused Spider
+        icon: mdi:snake
+        show_label: true
+        label: '[[[ return parseFloat(entity.state).toFixed(1) + ''°F | '' + parseFloat(states[''sensor.smart_thermo_hygrometer_c6332c_h5100_01_02_04_05_08_74_77_hum''].state).toFixed(0)
+          + ''%'' ]]]'
+        tap_action:
+          action: navigate
+          navigation_path: /confused-spider-bp
+        styles:
+          card:
+          - background: '#080808'
+          - border-radius: 12px
+          - padding: 15px
+          - height: 200px
+          name:
+          - color: '#e8f4f8'
+          - font-size: 20px
+          - font-weight: bold
+          label:
+          - color: '#a0b0b5'
+          - font-size: 16px
+          - margin-top: 12px
+          icon:
+          - color: '#00BFFF'
+          - width: 50px
+        card_mod:
+          style: "ha-card {\n  border: none;\n  {% set t = states('sensor.smart_thermo_hygrometer_c6332c_h5100_01_02_04_05_08_74_77_tempc')\
+            \ | float(0) %}\n  {% set h = states('sensor.smart_thermo_hygrometer_c6332c_h5100_01_02_04_05_08_74_77_hum') |\
+            \ float(0) %}\n  {% if t >= 75 and t <= 92 and h >= 50 and h <= 70 %}\n    box-shadow: 0px 0px 18px rgba(0, 191,\
+            \ 255, 0.4) !important;\n  {% else %}\n    box-shadow: 0px 0px 22px rgba(255, 107, 0, 0.7) !important;\n  {% endif\
+            \ %}\n}\n"
+    - type: custom:button-card
+      name: Add Enclosure
+      label: Ready for initialization
+      icon: mdi:plus-circle-outline
+      show_label: true
+      show_name: true
+      tap_action:
+        action: none
+      styles:
+        card:
+        - background: '#121212'
+        - border: '2px dashed #333333'
+        - border-radius: 12px
+        - padding: 15px
+        - height: 80px
+        - margin-top: 12px
+        - box-shadow: none
+        grid:
+        - grid-template-columns: 50px max-content
+        - grid-template-areas: '"i n" "i l"'
+        - justify-content: center
+        - align-content: center
+        name:
+        - color: '#555555'
+        - font-size: 18px
+        - font-weight: bold
+        - justify-self: center
+        - margin-bottom: 4px
+        label:
+        - color: '#444444'
+        - font-size: 14px
+        - justify-self: center
+        icon:
+        - color: '#333333'
+        - width: 40px
+- title: Screensaver
+  path: screensaver
+  type: panel
+  cards:
+  - type: custom:button-card
+    styles:
+      card:
+      - width: 780px
+      - height: 460px
+      - background: '#000000'
+      - margin: 0
+      - padding: 0
+      - border: none
+      - overflow: hidden
+      - cursor: default
+      custom_fields:
+        top_text:
+        - position: absolute
+        - top: 20px
+        - left: 0px
+        - width: 1500px
+        - animation: scroll-top 30s linear infinite
+        stats:
+        - position: absolute
+        - bottom: 30px
+        - left: 0px
+        - width: 700px
+        - animation: scroll-bottom 25s linear infinite
+        albedo:
+        - position: absolute
+        - width: 130px
+        - animation: pulse 4s ease-in-out infinite, patrol-mid 50s linear infinite
+    custom_fields:
+      top_text:
+        card:
+          type: custom:button-card
+          name: 'EXOTIC OS — SMART HUSBANDRY, SIMPLIFIED '
+          styles:
+            card:
+            - background: transparent
+            - border: none
+            name:
+            - color: '#546E7A'
+            - font-family: monospace
+            - font-size: 36px
+            - letter-spacing: 4px
+      albedo:
+        card:
+          type: custom:button-card
+          icon: mdi:orbit
+          styles:
+            card:
+            - background: transparent
+            - border: none
+            icon:
+            - color: '#00E5FF'
+            - width: 100%
+            - filter: 'drop-shadow(0px 0px 15px #00E5FF)'
+      stats:
+        card:
+          type: horizontal-stack
+          cards:
+          - type: custom:button-card
+            name: CORA
+            label: "[[[\n  var t = states['sensor.thermo_hygrometer_8bdc3c_h5072_75_tempc'];\n  var h = states['sensor.thermo_hygrometer_8bdc3c_h5072_75_hum'];\n\
+              \  var t_val = t ? parseFloat(t.state).toFixed(1) : '--';\n  var h_val = h ? parseFloat(h.state).toFixed(0)\
+              \ : '--';\n  return t_val + '°F / ' + h_val + '%';\n]]]\n"
+            show_label: true
+            styles:
+              card:
+              - background: '#0a0a0a'
+              - border: '1px solid #222'
+              - border-radius: 8px
+              - padding: 10px
+              - box-shadow: 0px 0px 10px rgba(176, 38, 255, 0.2)
+              name:
+              - color: '#B026FF'
+              - font-weight: bold
+              - font-size: 16px
+              - font-family: monospace
+              label:
+              - color: '#00E5FF'
+              - font-size: 18px
+              - font-family: monospace
+              - text-shadow: '0px 0px 5px #00E5FF'
+          - type: custom:button-card
+            name: SONIC
+            label: "[[[\n  var t = states['sensor.smart_thermo_hygrometer_461688_h5100_01_02_04_05_08_74_77_tempc'];\n  var\
+              \ h = states['sensor.smart_thermo_hygrometer_461688_h5100_01_02_04_05_08_74_77_hum'];\n  var t_val = t ? parseFloat(t.state).toFixed(1)\
+              \ : '--';\n  var h_val = h ? parseFloat(h.state).toFixed(0) : '--';\n  return t_val + '°F / ' + h_val + '%';\n\
+              ]]]\n"
+            show_label: true
+            styles:
+              card:
+              - background: '#0a0a0a'
+              - border: '1px solid #222'
+              - border-radius: 8px
+              - padding: 10px
+              - box-shadow: 0px 0px 10px rgba(57, 255, 20, 0.2)
+              name:
+              - color: '#39FF14'
+              - font-weight: bold
+              - font-size: 16px
+              - font-family: monospace
+              label:
+              - color: '#00E5FF'
+              - font-size: 18px
+              - font-family: monospace
+              - text-shadow: '0px 0px 5px #00E5FF'
+          - type: custom:button-card
+            name: MOTLEY
+            label: "[[[\n  var t = states['sensor.thermo_hygrometer_e81c61_h5072_75_tempc'];\n  var h = states['sensor.thermo_hygrometer_e81c61_h5072_75_hum'];\n\
+              \  var t_val = t ? parseFloat(t.state).toFixed(1) : '--';\n  var h_val = h ? parseFloat(h.state).toFixed(0)\
+              \ : '--';\n  return t_val + '°F / ' + h_val + '%';\n]]]\n"
+            show_label: true
+            styles:
+              card:
+              - background: '#0a0a0a'
+              - border: '1px solid #222'
+              - border-radius: 8px
+              - padding: 10px
+              - box-shadow: 0px 0px 10px rgba(255, 107, 0, 0.2)
+              name:
+              - color: '#FF6B00'
+              - font-weight: bold
+              - font-size: 16px
+              - font-family: monospace
+              label:
+              - color: '#00E5FF'
+              - font-size: 18px
+              - font-family: monospace
+              - text-shadow: '0px 0px 5px #00E5FF'
+          - type: custom:button-card
+            name: CONFUSED SPIDER
+            label: "[[[\n  var t = states['sensor.smart_thermo_hygrometer_c6332c_h5100_01_02_04_05_08_74_77_tempc'];\n  var\
+              \ h = states['sensor.smart_thermo_hygrometer_c6332c_h5100_01_02_04_05_08_74_77_hum'];\n  var t_val = t ? parseFloat(t.state).toFixed(1)\
+              \ : '--';\n  var h_val = h ? parseFloat(h.state).toFixed(0) : '--';\n  return t_val + '°F / ' + h_val + '%';\n\
+              ]]]\n"
+            show_label: true
+            styles:
+              card:
+              - background: '#0a0a0a'
+              - border: '1px solid #222'
+              - border-radius: 8px
+              - padding: 10px
+              - box-shadow: 0px 0px 10px rgba(255, 107, 0, 0.2)
+              name:
+              - color: '#006B80'
+              - font-weight: bold
+              - font-size: 16px
+              - font-family: monospace
+              label:
+              - color: '#00E5FF'
+              - font-size: 18px
+              - font-family: monospace
+              - text-shadow: '0px 0px 5px #00E5FF'
+    extra_styles: "@keyframes scroll-top {\n  0%   { transform: translateX(780px); }\n  100% { transform: translateX(-1500px);\
+      \ }\n}\n@keyframes scroll-bottom {\n  0%   { transform: translateX(780px); }\n  100% { transform: translateX(-800px);\
+      \ }\n}\n@keyframes pulse {\n  0%, 100% { transform: scale(0.85); opacity: 0.1; }\n  50%      { transform: scale(1.1);\
+      \ opacity: 0.6; }\n}\n/* This locks Albedo to the vertical center (top: 160px) */\n@keyframes patrol-mid {\n  0%   {\
+      \ top: 160px; left: 100px; }\n  50%  { top: 160px; left: 530px; }\n  100% { top: 160px; left: 100px; }\n}\n"

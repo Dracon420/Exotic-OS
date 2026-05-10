@@ -1,0 +1,823 @@
+kiosk_mode:
+  hide_header: true
+  hide_sidebar: true
+  admin_settings:
+    hide_header: true
+    hide_sidebar: true
+title: Miss Cora's Enclosure
+views:
+- title: Cora
+  path: cora
+  type: panel
+  cards:
+  - type: vertical-stack
+    cards:
+    - type: horizontal-stack
+      cards:
+      - type: custom:button-card
+        icon: mdi:chevron-left
+        name: Back
+        tap_action:
+          action: navigate
+          navigation_path: /exotic-os
+        styles:
+          card:
+          - background: '#050505'
+          - border: 1px solid
+          - border-radius: 12px
+          - width: 85px
+          icon:
+          - color: '#a0b0b5'
+          - width: 35px
+          name:
+          - color: '#a0b0b5'
+          - font-weight: bold
+          - font-size: 14px
+      - type: custom:button-card
+        name: Miss Cora — Ball Python
+        label: 36×18×18 Enclosure
+        show_label: true
+        tap_action:
+          action: none
+        styles:
+          card:
+          - background: 'linear-gradient(135deg, #050505 0%, #121212 100%)'
+          - border: none
+          - border-radius: 12px
+          name:
+          - color: '#e8f4f8'
+          - font-family: '"Segoe UI", sans-serif'
+          - font-size: 24px
+          - font-weight: 900
+          label:
+          - color: '#B026FF'
+          - font-family: '"Segoe UI", sans-serif'
+          - font-size: 14px
+      - type: custom:button-card
+        icon: mdi:orbit
+        tap_action:
+          action: none
+        styles:
+          card:
+          - background: '#050505'
+          - border: 1px solid
+          - border-radius: 12px
+          - width: 85px
+          icon:
+          - color: '#00E5FF'
+          - width: 40px
+          - animation: breathing 3s ease-in-out infinite
+          - will-change: transform, filter
+        extra_styles: "@keyframes breathing {\n  0% { transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0px 0px 2px\
+          \ #00E5FF); }\n  50% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0px 0px 8px #00E5FF); }\n  100% {\
+          \ transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0px 0px 2px #00E5FF); }\n}\n"
+    - type: horizontal-stack
+      cards:
+      - type: vertical-stack
+        cards:
+        - type: grid
+          columns: 2
+          square: false
+          cards:
+          - type: custom:button-card
+            entity: sensor.thermo_hygrometer_8bdc3c_h5072_75_tempc
+            name: Hot Temp
+            icon: mdi:thermometer
+            show_state: true
+            tap_action:
+              action: more-info
+            styles:
+              card:
+              - background: '#080808'
+              - border-radius: 12px
+              - padding: 15px
+              - border: 1px solid
+              name:
+              - color: '#a0b0b5'
+              - font-size: 14px
+              - margin-bottom: 5px
+              state:
+              - color: '#e8f4f8'
+              - font-size: 26px
+              - font-weight: bold
+              icon:
+              - color: '#B026FF'
+              - width: 35px
+          - type: custom:button-card
+            entity: sensor.thermo_hygrometer_87a7fb_h5072_75_tempc
+            name: Cool Temp
+            icon: mdi:thermometer
+            show_state: true
+            tap_action:
+              action: more-info
+            styles:
+              card:
+              - background: '#080808'
+              - border-radius: 12px
+              - padding: 15px
+              - border: 1px solid
+              name:
+              - color: '#a0b0b5'
+              - font-size: 14px
+              - margin-bottom: 5px
+              state:
+              - color: '#e8f4f8'
+              - font-size: 26px
+              - font-weight: bold
+              icon:
+              - color: '#7A4B8F'
+              - width: 35px
+          - type: custom:button-card
+            entity: sensor.thermo_hygrometer_8bdc3c_h5072_75_hum
+            name: Hot Hum
+            icon: mdi:water-percent
+            show_state: true
+            tap_action:
+              action: more-info
+            styles:
+              card:
+              - background: '#080808'
+              - border-radius: 12px
+              - padding: 15px
+              - border: 1px solid
+              name:
+              - color: '#a0b0b5'
+              - font-size: 14px
+              - margin-bottom: 5px
+              state:
+              - color: '#e8f4f8'
+              - font-size: 26px
+              - font-weight: bold
+              icon:
+              - color: '#B026FF'
+              - width: 35px
+          - type: custom:button-card
+            entity: sensor.thermo_hygrometer_87a7fb_h5072_75_hum
+            name: Cool Hum
+            icon: mdi:water-percent
+            show_state: true
+            tap_action:
+              action: more-info
+            styles:
+              card:
+              - background: '#080808'
+              - border-radius: 12px
+              - padding: 15px
+              - border: 1px solid
+              name:
+              - color: '#a0b0b5'
+              - font-size: 14px
+              - margin-bottom: 5px
+              state:
+              - color: '#e8f4f8'
+              - font-size: 26px
+              - font-weight: bold
+              icon:
+              - color: '#7A4B8F'
+              - width: 35px
+        - type: custom:button-card
+          entity: switch.cora_che_socket_1
+          name: Ceramic Heat Emitter
+          label: '[[[ return states["switch.cora_che_socket_1"].state === "on" ? "ACTIVE" : "STANDBY" ]]]'
+          show_label: true
+          icon: mdi:radiator
+          tap_action:
+            action: toggle
+          styles:
+            card:
+            - border-radius: 12px
+            - padding: 15px
+            - height: 90px
+            - transition: all 0.3s ease
+            grid:
+            - grid-template-columns: 60px auto
+            - grid-template-rows: auto auto
+            - grid-template-areas: '"i n" "i l"'
+            - justify-content: start
+            name:
+            - color: '#e8f4f8'
+            - font-size: 18px
+            - font-weight: bold
+            - justify-self: start
+            label:
+            - font-size: 14px
+            - justify-self: start
+            - font-weight: bold
+            icon:
+            - width: 45px
+          state:
+          - value: 'on'
+            styles:
+              card:
+              - background: '#13051A'
+              - border: 1px solid
+              - box-shadow: 0px 0px 18px rgba(176, 38, 255, 0.4)
+              icon:
+              - color: '#B026FF'
+              - animation: pulse 2s infinite
+              - will-change: filter, transform
+              label:
+              - color: '#B026FF'
+          - value: 'off'
+            styles:
+              card:
+              - background: '#080808'
+              - border: 1px solid
+              icon:
+              - color: '#444444'
+              label:
+              - color: '#444444'
+          extra_styles: "@keyframes pulse {\n  0% { filter: drop-shadow(0px 0px 2px #B026FF); }\n  50% { filter: drop-shadow(0px\
+            \ 0px 10px #B026FF); }\n  100% { filter: drop-shadow(0px 0px 2px #B026FF); }\n}\n"
+      - type: vertical-stack
+        cards:
+        - type: history-graph
+          hours_to_show: 24
+          entities:
+          - entity: sensor.thermo_hygrometer_8bdc3c_h5072_75_tempc
+            name: Hot Side
+          - entity: sensor.thermo_hygrometer_87a7fb_h5072_75_tempc
+            name: Cool Side
+          card_mod:
+            style: "ha-card {\n  background: #080808 !important;\n  border-radius: 12px !important;\n  border: 1px solid #1a1a1a\
+              \ !important;\n}\n"
+        - type: history-graph
+          hours_to_show: 24
+          entities:
+          - entity: sensor.thermo_hygrometer_8bdc3c_h5072_75_hum
+            name: Hot Side
+          - entity: sensor.thermo_hygrometer_87a7fb_h5072_75_hum
+            name: Cool Side
+          card_mod:
+            style: "ha-card {\n  background: #080808 !important;\n  border-radius: 12px !important;\n  border: 1px solid #1a1a1a\
+              \ !important;\n}\n"
+    - type: horizontal-stack
+      cards:
+      - type: custom:button-card
+        icon: mdi:video
+        name: Camera
+        label: Cora Cam — Live
+        show_label: true
+        tap_action:
+          action: navigate
+          navigation_path: /coras-enclosure/camera
+        styles:
+          card:
+          - background: '#080808'
+          - border: 1px solid
+          - border-radius: 12px
+          - padding: 15px
+          - height: 75px
+          grid:
+          - grid-template-columns: 45px auto
+          - grid-template-areas: '"i n" "i l"'
+          - justify-content: start
+          icon:
+          - color: '#B026FF'
+          - width: 35px
+          name:
+          - color: '#e8f4f8'
+          - font-size: 16px
+          - font-weight: bold
+          - justify-self: start
+          label:
+          - color: '#a0b0b5'
+          - font-size: 12px
+          - justify-self: start
+      - type: custom:button-card
+        icon: mdi:thermometer-auto
+        name: Heat Control
+        label: CHE · PID Status
+        show_label: true
+        tap_action:
+          action: navigate
+          navigation_path: /coras-enclosure/heat-control
+        styles:
+          card:
+          - background: '#080808'
+          - border: 1px solid
+          - border-radius: 12px
+          - padding: 15px
+          - height: 75px
+          grid:
+          - grid-template-columns: 45px auto
+          - grid-template-areas: '"i n" "i l"'
+          - justify-content: start
+          icon:
+          - color: '#B026FF'
+          - width: 35px
+          name:
+          - color: '#e8f4f8'
+          - font-size: 16px
+          - font-weight: bold
+          - justify-self: start
+          label:
+          - color: '#a0b0b5'
+          - font-size: 12px
+          - justify-self: start
+- title: Cora Cam
+  path: camera
+  type: panel
+  cards:
+  - type: vertical-stack
+    cards:
+    - type: horizontal-stack
+      cards:
+      - type: custom:button-card
+        icon: mdi:chevron-left
+        name: Back
+        tap_action:
+          action: navigate
+          navigation_path: /coras-enclosure/cora
+        styles:
+          card:
+          - background: '#050505'
+          - border: 1px solid
+          - border-radius: 12px
+          - width: 85px
+          icon:
+          - color: '#a0b0b5'
+          - width: 35px
+          name:
+          - color: '#a0b0b5'
+          - font-weight: bold
+          - font-size: 14px
+      - type: custom:button-card
+        name: Cora Cam
+        label: Live Feed
+        show_label: true
+        tap_action:
+          action: none
+        styles:
+          card:
+          - background: 'linear-gradient(135deg, #050505 0%, #121212 100%)'
+          - border: none
+          - border-radius: 12px
+          name:
+          - color: '#e8f4f8'
+          - font-family: '"Segoe UI", sans-serif'
+          - font-size: 24px
+          - font-weight: 900
+          label:
+          - color: '#B026FF'
+          - font-family: '"Segoe UI", sans-serif'
+          - font-size: 14px
+      - type: custom:button-card
+        icon: mdi:orbit
+        tap_action:
+          action: none
+        styles:
+          card:
+          - background: '#050505'
+          - border: 1px solid
+          - border-radius: 12px
+          - width: 85px
+          icon:
+          - color: '#00E5FF'
+          - width: 40px
+          - animation: breathing 3s ease-in-out infinite
+          - will-change: transform, filter
+        extra_styles: "@keyframes breathing {\n  0% { transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0px 0px 2px\
+          \ #00E5FF); }\n  50% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0px 0px 8px #00E5FF); }\n  100% {\
+          \ transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0px 0px 2px #00E5FF); }\n}\n"
+    - type: picture-entity
+      entity: camera.192_168_68_62
+      show_state: false
+      show_name: false
+      camera_view: live
+      card_mod:
+        style: "ha-card {\n  background: #080808 !important;\n  border-radius: 12px !important;\n  border: 1px solid #1a1a1a\
+          \ !important;\n  overflow: hidden !important;\n}\nhui-image {\n  transform: rotate(180deg) !important;\n  display:\
+          \ block !important;\n}\n"
+    - type: horizontal-stack
+      cards:
+      - type: custom:button-card
+        entity: sensor.thermo_hygrometer_8bdc3c_h5072_75_tempc
+        name: Hot Temp
+        icon: mdi:thermometer
+        show_state: true
+        tap_action:
+          action: none
+        styles:
+          card:
+          - background: '#080808'
+          - border-radius: 12px
+          - padding: 10px
+          - border: 1px solid
+          name:
+          - color: '#a0b0b5'
+          - font-size: 12px
+          state:
+          - color: '#e8f4f8'
+          - font-size: 22px
+          - font-weight: bold
+          icon:
+          - color: '#B026FF'
+          - width: 28px
+      - type: custom:button-card
+        entity: sensor.thermo_hygrometer_87a7fb_h5072_75_tempc
+        name: Cool Temp
+        icon: mdi:thermometer
+        show_state: true
+        tap_action:
+          action: none
+        styles:
+          card:
+          - background: '#080808'
+          - border-radius: 12px
+          - padding: 10px
+          - border: 1px solid
+          name:
+          - color: '#a0b0b5'
+          - font-size: 12px
+          state:
+          - color: '#e8f4f8'
+          - font-size: 22px
+          - font-weight: bold
+          icon:
+          - color: '#7A4B8F'
+          - width: 28px
+      - type: custom:button-card
+        entity: sensor.thermo_hygrometer_8bdc3c_h5072_75_hum
+        name: Humidity
+        icon: mdi:water-percent
+        show_state: true
+        tap_action:
+          action: none
+        styles:
+          card:
+          - background: '#080808'
+          - border-radius: 12px
+          - padding: 10px
+          - border: 1px solid
+          name:
+          - color: '#a0b0b5'
+          - font-size: 12px
+          state:
+          - color: '#e8f4f8'
+          - font-size: 22px
+          - font-weight: bold
+          icon:
+          - color: '#B026FF'
+          - width: 28px
+      - type: custom:button-card
+        entity: switch.cora_che_socket_1
+        name: CHE
+        icon: mdi:radiator
+        show_state: false
+        tap_action:
+          action: none
+        styles:
+          card:
+          - border-radius: 12px
+          - padding: 10px
+          name:
+          - font-size: 12px
+          icon:
+          - width: 28px
+        state:
+        - value: 'on'
+          styles:
+            card:
+            - background: '#13051A'
+            - border: 1px solid
+            icon:
+            - color: '#B026FF'
+            name:
+            - color: '#B026FF'
+        - value: 'off'
+          styles:
+            card:
+            - background: '#080808'
+            - border: 1px solid
+            icon:
+            - color: '#333333'
+            name:
+            - color: '#444444'
+- title: Heat Control
+  path: heat-control
+  type: panel
+  cards:
+  - type: vertical-stack
+    cards:
+    - type: horizontal-stack
+      cards:
+      - type: custom:button-card
+        icon: mdi:chevron-left
+        name: Back
+        tap_action:
+          action: navigate
+          navigation_path: /coras-enclosure/cora
+        styles:
+          card:
+          - background: '#050505'
+          - border: 1px solid
+          - border-radius: 12px
+          - width: 85px
+          icon:
+          - color: '#a0b0b5'
+          - width: 35px
+          name:
+          - color: '#a0b0b5'
+          - font-weight: bold
+          - font-size: 14px
+      - type: custom:button-card
+        name: Heat Control
+        label: "[[[ return states[\"input_boolean.cora_pid_enabled\"].state === \"on\"\n    ? \"PID ACTIVE\"\n    : \"PID\
+          \ DISABLED\" ]]]"
+        show_label: true
+        tap_action:
+          action: none
+        styles:
+          card:
+          - background: 'linear-gradient(135deg, #050505 0%, #121212 100%)'
+          - border: none
+          - border-radius: 12px
+          name:
+          - color: '#e8f4f8'
+          - font-family: '"Segoe UI", sans-serif'
+          - font-size: 24px
+          - font-weight: 900
+          label:
+          - font-family: monospace
+          - font-size: 13px
+          - letter-spacing: 1px
+        card_mod:
+          style: ".label {\n  {% if states('input_boolean.cora_pid_enabled') == 'on' %}\n    color: #39FF14 !important;\n\
+            \  {% else %}\n    color: #555555 !important;\n  {% endif %}\n}\n"
+      - type: custom:button-card
+        icon: mdi:orbit
+        tap_action:
+          action: none
+        styles:
+          card:
+          - background: '#050505'
+          - border: 1px solid
+          - border-radius: 12px
+          - width: 85px
+          icon:
+          - color: '#00E5FF'
+          - width: 40px
+          - animation: breathing 3s ease-in-out infinite
+          - will-change: transform, filter
+        extra_styles: "@keyframes breathing {\n  0% { transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0px 0px 2px\
+          \ #00E5FF); }\n  50% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0px 0px 8px #00E5FF); }\n  100% {\
+          \ transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0px 0px 2px #00E5FF); }\n}\n"
+    - type: horizontal-stack
+      cards:
+      - type: custom:button-card
+        entity: sensor.thermo_hygrometer_8bdc3c_h5072_75_tempc
+        name: Hot Side Now
+        show_state: true
+        icon: mdi:thermometer-high
+        tap_action:
+          action: none
+        styles:
+          card:
+          - border-radius: 12px
+          - padding: 15px
+          name:
+          - color: '#a0b0b5'
+          - font-size: 13px
+          state:
+          - font-size: 38px
+          - font-weight: bold
+          icon:
+          - width: 32px
+        card_mod:
+          style: "ha-card {\n  {% set t = states('sensor.thermo_hygrometer_8bdc3c_h5072_75_tempc') | float(0) %}\n  {% if\
+            \ t >= 88 and t <= 92 %}\n    background: #0D1A0D !important;\n    border: 1px solid #39FF14 !important;\n  {%\
+            \ elif t < 88 %}\n    background: #13051A !important;\n    border: 1px solid #B026FF !important;\n  {% else %}\n\
+            \    background: #1A0A00 !important;\n    border: 1px solid #FF6B00 !important;\n  {% endif %}\n} .state {\n \
+            \ {% set t = states('sensor.thermo_hygrometer_8bdc3c_h5072_75_tempc') | float(0) %}\n  {% if t >= 88 and t <=\
+            \ 92 %}\n    color: #39FF14 !important;\n  {% elif t < 88 %}\n    color: #B026FF !important;\n  {% else %}\n \
+            \   color: #FF6B00 !important;\n  {% endif %}\n}\n"
+      - type: custom:button-card
+        entity: input_number.cora_pid_output
+        name: Output %
+        show_state: true
+        icon: mdi:gauge
+        tap_action:
+          action: none
+        styles:
+          card:
+          - background: '#080808'
+          - border: 1px solid
+          - border-radius: 12px
+          - padding: 15px
+          name:
+          - color: '#a0b0b5'
+          - font-size: 13px
+          state:
+          - color: '#00E5FF'
+          - font-size: 38px
+          - font-weight: bold
+          icon:
+          - color: '#00E5FF'
+          - width: 32px
+      - type: custom:button-card
+        entity: switch.cora_che_socket_1
+        name: Relay
+        show_state: false
+        icon: mdi:radiator
+        tap_action:
+          action: none
+        styles:
+          card:
+          - border-radius: 12px
+          - padding: 15px
+          name:
+          - font-size: 13px
+          icon:
+          - width: 32px
+        state:
+        - value: 'on'
+          styles:
+            card:
+            - background: '#13051A'
+            - border: 1px solid
+            icon:
+            - color: '#B026FF'
+            - animation: pulse 2s infinite
+            - will-change: filter
+            name:
+            - color: '#B026FF'
+        - value: 'off'
+          styles:
+            card:
+            - background: '#080808'
+            - border: 1px solid
+            icon:
+            - color: '#333333'
+            name:
+            - color: '#444444'
+        extra_styles: "@keyframes pulse {\n  0% { filter: drop-shadow(0px 0px 2px #B026FF); }\n  50% { filter: drop-shadow(0px\
+          \ 0px 10px #B026FF); }\n  100% { filter: drop-shadow(0px 0px 2px #B026FF); }\n}\n"
+    - type: horizontal-stack
+      cards:
+      - type: custom:button-card
+        icon: mdi:minus
+        name: ''
+        tap_action:
+          action: call-service
+          service: input_number.decrement
+          service_data:
+            entity_id: input_number.cora_pid_setpoint
+        hold_action:
+          action: call-service
+          service: input_number.decrement
+          service_data:
+            entity_id: input_number.cora_pid_setpoint
+        styles:
+          card:
+          - background: '#0D0510'
+          - border: 2px solid
+          - border-radius: 12px
+          - height: 80px
+          - width: 80px
+          icon:
+          - color: '#B026FF'
+          - width: 45px
+      - type: custom:button-card
+        entity: input_number.cora_pid_setpoint
+        name: Setpoint
+        show_state: true
+        tap_action:
+          action: more-info
+        styles:
+          card:
+          - background: '#080808'
+          - border: 1px solid
+          - border-radius: 12px
+          - height: 80px
+          name:
+          - color: '#a0b0b5'
+          - font-size: 13px
+          - font-family: monospace
+          - letter-spacing: 1px
+          state:
+          - color: '#00E5FF'
+          - font-size: 36px
+          - font-weight: bold
+          - text-shadow: 0px 0px 8px rgba(0, 229, 255, 0.6)
+      - type: custom:button-card
+        icon: mdi:plus
+        name: ''
+        tap_action:
+          action: call-service
+          service: input_number.increment
+          service_data:
+            entity_id: input_number.cora_pid_setpoint
+        hold_action:
+          action: call-service
+          service: input_number.increment
+          service_data:
+            entity_id: input_number.cora_pid_setpoint
+        styles:
+          card:
+          - background: '#0D0510'
+          - border: 2px solid
+          - border-radius: 12px
+          - height: 80px
+          - width: 80px
+          icon:
+          - color: '#B026FF'
+          - width: 45px
+    - type: horizontal-stack
+      cards:
+      - type: custom:button-card
+        entity: input_boolean.cora_pid_enabled
+        name: '[[[ return entity.state === "on" ? "PID  ON" : "PID  OFF" ]]]'
+        icon: mdi:thermostat
+        tap_action:
+          action: toggle
+        styles:
+          card:
+          - border-radius: 12px
+          - height: 70px
+          - transition: all 0.3s ease
+          name:
+          - font-size: 18px
+          - font-weight: bold
+          - font-family: monospace
+          icon:
+          - width: 36px
+        state:
+        - value: 'on'
+          styles:
+            card:
+            - background: '#0D1A0D'
+            - border: 2px solid
+            - box-shadow: 0px 0px 16px rgba(57, 255, 20, 0.3)
+            icon:
+            - color: '#39FF14'
+            name:
+            - color: '#39FF14'
+        - value: 'off'
+          styles:
+            card:
+            - background: '#080808'
+            - border: 1px solid
+            icon:
+            - color: '#555555'
+            name:
+            - color: '#555555'
+      - type: custom:button-card
+        icon: mdi:restore
+        name: Reset Integral
+        tap_action:
+          action: call-service
+          service: input_number.set_value
+          service_data:
+            entity_id: input_number.cora_pid_integral
+            value: 0
+        styles:
+          card:
+          - background: '#080808'
+          - border: 1px solid
+          - border-radius: 12px
+          - height: 70px
+          icon:
+          - color: '#a0b0b5'
+          - width: 32px
+          name:
+          - color: '#a0b0b5'
+          - font-size: 14px
+    - type: entities
+      entities:
+      - entity: input_select.cora_heater_type
+        name: Heater type
+        icon: mdi:heat-wave
+      - entity: input_select.cora_temp_sensor
+        name: Control sensor
+        icon: mdi:thermometer
+      - entity: input_select.cora_relay
+        name: Heat relay
+        icon: mdi:power-socket-us
+      card_mod:
+        style: "ha-card {\n  background: #080808 !important;\n  border: 1px solid #1a1a1a !important;\n  border-radius: 12px\
+          \ !important;\n}\n.card-header { display: none !important; }\n#states > div { border-bottom: 1px solid #111 !important;\
+          \ padding: 6px 0 !important; }\n#states > div:last-child { border-bottom: none !important; }\n.info { color: #e8f4f8\
+          \ !important; font-size: 15px !important; }\n.info .secondary { color: #555 !important; font-family: monospace !important;\
+          \ font-size: 11px !important; }\nstate-badge { --state-badge-color: #B026FF !important; }\n"
+    - type: entities
+      entities:
+      - entity: input_number.cora_pid_kp
+        name: Kp — Proportional
+        icon: mdi:alpha-p-circle
+      - entity: input_number.cora_pid_ki
+        name: Ki — Integral
+        icon: mdi:alpha-i-circle
+      - entity: input_number.cora_pid_kd
+        name: Kd — Derivative
+        icon: mdi:alpha-d-circle
+      - entity: input_number.cora_pid_cycle_time
+        name: Cycle time (min)
+        icon: mdi:clock-outline
+      card_mod:
+        style: "ha-card {\n  background: #080808 !important;\n  border: 1px solid #1a1a1a !important;\n  border-radius: 12px\
+          \ !important;\n}\n.card-header { display: none !important; }\n#states > div { border-bottom: 1px solid #111 !important;\
+          \ padding: 6px 0 !important; }\n#states > div:last-child { border-bottom: none !important; }\n.info { color: #e8f4f8\
+          \ !important; font-size: 15px !important; }\n.info .secondary { color: #555 !important; font-size: 11px !important;\
+          \ }\nstate-badge { --state-badge-color: #B026FF !important; }\nha-slider { --paper-slider-active-color: #B026FF\
+          \ !important; --paper-slider-knob-color: #B026FF !important; }\n"

@@ -61,18 +61,35 @@ screensaver shows instead of black) and launches Chromium at
 the Pi (token persists in the Chromium profile) — no `trusted_networks` /
 passwordless auth is used.
 
+### Hidden mouse cursor
+The pointer is hidden at the X-server level via `-nocursor`, set in
+`~/.xserverrc` (see `scripts/xserverrc`). This is the real fix — CSS
+`cursor: none` (still present on the dashboard views via card_mod) only covers
+the dashboard view, not the app root where the pointer parks at (0,0). `xinit`
+prefers `~/.xserverrc`, so it applies on every X start. To apply without a reboot:
+end the tty1 login shell so getty respawns the session
+(`pkill -HUP -t tty1 -u exoticos bash`) — killing only Xorg does NOT restart it,
+because `startx` runs once from `~/.bash_profile` at login.
+
 ### Overnight "Aw, Snap!" (Error code 11) — fixed
-The renderer was OOM-killed after ~4.5h (~876MB RSS on a 2GB Pi) and stuck on the
-error page with no recovery. Two fixes, both as the `exoticos` user (no sudo):
+The renderer was OOM-killed / segfaulted after a few hours (~876MB RSS on a 2GB
+Pi) and stuck on the error page with no recovery. Layered fix, all as the
+`exoticos` user (no sudo):
 - **Root cause:** removed `--memory-pressure-off` from the Chromium flags (it
   blocked memory reclaim). See `scripts/kiosk.sh`.
-- **Safety net (cron):**
-  - `*/2 * * * * /home/exoticos/kiosk-watchdog.sh` — relaunch if Chromium exited.
-  - `0 */2 * * * /home/exoticos/kiosk-restart.sh` — clean restart every 2h to
-    clear memory creep and recover a crashed renderer (title/process can't detect
-    the sad-tab, so a timed restart is the reliable recovery).
+- **Prevention (keeps memory bounded):** HA automation *"Exotic OS: Kiosk hourly
+  refresh"* (`ha-config/automations/kiosk-refresh.yaml`) calls `browser_mod.refresh`
+  every hour — a soft page reload that sheds accumulated DOM/heap so memory never
+  reaches the crash point.
+- **Recovery (cron):**
+  - `*/2 * * * * /home/exoticos/kiosk-watchdog.sh` — relaunch if Chromium exited,
+    AND restart within ~2 min on a renderer crash, detected via a fresh Chromium
+    crash dump (`Crash Reports/*.dmp` newer than 3 min) since the sad-tab can't be
+    detected by title or process state.
+  - `0 4 * * * /home/exoticos/kiosk-restart.sh` — full nightly restart for any
+    process-level leak the soft refresh can't reclaim.
 
-`scripts/kiosk*.sh` are deployed to `/home/exoticos/` on the Pi; the three cron
+`scripts/kiosk*.sh` are deployed to `/home/exoticos/` on the Pi; the two cron
 lines above are in the `exoticos` user crontab.
 
 ### fail2ban note

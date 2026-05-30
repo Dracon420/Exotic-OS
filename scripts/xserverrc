@@ -1,0 +1,7 @@
+#!/bin/sh
+# Deployed to ~/.xserverrc on the BTT Pi kiosk (exoticos user).
+# xinit prefers ~/.xserverrc over /etc/X11/xinit/xserverrc, so this adds
+# -nocursor to the X server -> the mouse pointer is hidden at the server level
+# (no app can override it). CSS cursor:none only covered the dashboard view, not
+# the app root where the pointer parks at 0,0, so this is the real fix.
+exec /usr/bin/X -nolisten tcp "$@" -nocursor

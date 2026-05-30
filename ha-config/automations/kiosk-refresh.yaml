@@ -1,0 +1,16 @@
+# Soft-reloads the BTT Pi kiosk every hour via browser_mod, shedding the
+# accumulated DOM / history / JS heap so Chromium's renderer memory stays bounded
+# and never grows to the OOM/segfault point ("Aw, Snap! Error code 11").
+# A page reload is a clean "dump the oldest state and start fresh".
+- id: '1778300000001'
+  alias: 'Exotic OS: Kiosk hourly refresh'
+  description: Soft-reload the kiosk each hour to shed accumulated memory (prevents renderer OOM crash).
+  triggers:
+  - trigger: time_pattern
+    minutes: '0'
+  actions:
+  - action: browser_mod.refresh
+    data:
+      browser_id:
+      - browser_mod_b2dfa711_40e39ce3
+  mode: single

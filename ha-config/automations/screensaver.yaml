@@ -1,7 +1,7 @@
 - id: '1778121171353'
   alias: 'Exotic OS: Screen Saver Start'
   triggers:
-  - entity_id: binary_sensor.browser_mod_0346c93a_4801d14b
+  - entity_id: binary_sensor.browser_mod_b2dfa711_40e39ce3
     to: 'off'
     for:
       minutes: 10
@@ -11,31 +11,31 @@
     data:
       path: /exotic-os/screensaver
       browser_id:
-      - 7342a50301f49dead959ba40edc6efa9
+      - browser_mod_b2dfa711_40e39ce3
 
 - id: '1778121205768'
   alias: 'Exotic OS: Screen Saver Wake'
   description: Ensure it only wakes when it's actually on the screensaver.
   triggers:
-  - entity_id: binary_sensor.browser_mod_0346c93a_4801d14b
+  - entity_id: binary_sensor.browser_mod_b2dfa711_40e39ce3
     to: 'on'
     trigger: state
   conditions:
   - condition: template
-    value_template: "{{ is_state('sensor.browser_mod_0346c93a_4801d14b_browser_path',
+    value_template: "{{ is_state('sensor.browser_mod_b2dfa711_40e39ce3_browser_path',
       '/exotic-os/screensaver') }}"
   actions:
   - action: browser_mod.navigate
     data:
       path: /exotic-os/home
       browser_id:
-      - 7342a50301f49dead959ba40edc6efa9
+      - browser_mod_b2dfa711_40e39ce3
 
 - id: '1778207387676'
   alias: 'Exotic OS: Return to Home from Enclosure'
   description: Returns BTT Pi kiosk to home after 5 min idle on a per-enclosure dashboard
   triggers:
-  - entity_id: binary_sensor.browser_mod_0346c93a_4801d14b
+  - entity_id: binary_sensor.browser_mod_b2dfa711_40e39ce3
     to: 'off'
     for:
       minutes: 5
@@ -43,7 +43,7 @@
   conditions:
   - condition: template
     value_template: >
-      {% set path = states('sensor.browser_mod_0346c93a_4801d14b_browser_path') %}
+      {% set path = states('sensor.browser_mod_b2dfa711_40e39ce3_browser_path') %}
       {{ path in [
         '/coras-enclosure/0',
         '/sonics-enclosure/0',
@@ -55,5 +55,5 @@
     data:
       path: /exotic-os/home
       browser_id:
-      - 7342a50301f49dead959ba40edc6efa9
+      - browser_mod_b2dfa711_40e39ce3
   mode: single

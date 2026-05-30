@@ -52,9 +52,30 @@ to these.
 If the kiosk display is ever re-registered, the browserID changes — update
 `screensaver.yaml` accordingly.
 
-## Kiosk autostart
+## Kiosk autostart + stability
 
-`~/.config/openbox/autostart` on the Pi launches Chromium at
-`http://192.168.68.63:8123/exotic-os/home`. The kiosk authenticates with a normal
-user login typed once on the Pi (token persists in the Chromium profile) — no
-`trusted_networks` / passwordless auth is used.
+`~/.config/openbox/autostart` launches **`/home/exoticos/kiosk.sh`** (in
+`scripts/`), which sets `xset s off / -dpms` (no screen blanking → branded
+screensaver shows instead of black) and launches Chromium at
+`/exotic-os/home`. The kiosk authenticates with a normal user login typed once on
+the Pi (token persists in the Chromium profile) — no `trusted_networks` /
+passwordless auth is used.
+
+### Overnight "Aw, Snap!" (Error code 11) — fixed
+The renderer was OOM-killed after ~4.5h (~876MB RSS on a 2GB Pi) and stuck on the
+error page with no recovery. Two fixes, both as the `exoticos` user (no sudo):
+- **Root cause:** removed `--memory-pressure-off` from the Chromium flags (it
+  blocked memory reclaim). See `scripts/kiosk.sh`.
+- **Safety net (cron):**
+  - `*/2 * * * * /home/exoticos/kiosk-watchdog.sh` — relaunch if Chromium exited.
+  - `0 */2 * * * /home/exoticos/kiosk-restart.sh` — clean restart every 2h to
+    clear memory creep and recover a crashed renderer (title/process can't detect
+    the sad-tab, so a timed restart is the reliable recovery).
+
+`scripts/kiosk*.sh` are deployed to `/home/exoticos/` on the Pi; the three cron
+lines above are in the `exoticos` user crontab.
+
+### fail2ban note
+Repeated/failed SSH from a workstation can get that IP blanket-DROP banned on the
+Pi (blocks all ports + ICMP, while the Pi keeps publishing to MQTT). Clear with
+`sudo fail2ban-client unban --all`; optionally whitelist the LAN via `ignoreip`.

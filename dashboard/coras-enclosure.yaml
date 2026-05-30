@@ -9,6 +9,11 @@ views:
 - title: Cora
   path: cora
   type: panel
+  card_mod:
+    style: |
+      :host {
+        cursor: none !important;
+      }
   cards:
   - type: vertical-stack
     cards:
@@ -318,6 +323,11 @@ views:
 - title: Cora Cam
   path: camera
   type: panel
+  card_mod:
+    style: |
+      :host {
+        cursor: none !important;
+      }
   cards:
   - type: vertical-stack
     cards:
@@ -497,6 +507,11 @@ views:
 - title: Heat Control
   path: heat-control
   type: panel
+  card_mod:
+    style: |
+      :host {
+        cursor: none !important;
+      }
   cards:
   - type: vertical-stack
     cards:

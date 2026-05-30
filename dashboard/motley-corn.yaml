@@ -9,6 +9,11 @@ views:
 - title: Motley
   path: motley
   type: panel
+  card_mod:
+    style: |
+      :host {
+        cursor: none !important;
+      }
   cards:
   - type: vertical-stack
     cards:

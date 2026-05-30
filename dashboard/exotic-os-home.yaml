@@ -9,6 +9,11 @@ views:
 - title: Home
   path: home
   type: panel
+  card_mod:
+    style: |
+      :host {
+        cursor: none !important;
+      }
   cards:
   - type: vertical-stack
     cards:
@@ -223,6 +228,11 @@ views:
 - title: Screensaver
   path: screensaver
   type: panel
+  card_mod:
+    style: |
+      :host {
+        cursor: none !important;
+      }
   cards:
   - type: custom:button-card
     styles:

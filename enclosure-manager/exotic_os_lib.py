@@ -407,8 +407,33 @@ def _enclosure_camera_view(enc):
     return _panel(f'{e["slug"]}-cam', f'{e["name"]} Cam', cards)
 
 
+SCREENSAVER_KEYFRAMES = (
+    "@keyframes scroll-top {\n  0%   { transform: translateX(780px); }\n  100% { transform: translateX(-1500px); }\n}\n"
+    "@keyframes scroll-bottom {\n  0%   { transform: translateX(780px); }\n  100% { transform: translateX(-800px); }\n}\n"
+    "@keyframes pulse {\n  0%, 100% { transform: scale(0.85); opacity: 0.1; }\n  50%      { transform: scale(1.1); opacity: 0.6; }\n}\n"
+    "@keyframes patrol-mid {\n  0%   { top: 160px; left: 100px; }\n  50%  { top: 160px; left: 530px; }\n  100% { top: 160px; left: 100px; }\n}\n"
+)
+
+
+def _ss_stat(enc):
+    e = enc
+    color = e["color"]
+    ht, hh = e.get("hot_temp") or "sensor.none", e.get("hot_hum") or "sensor.none"
+    label = (f"[[[ var t=states['{ht}']; var h=states['{hh}']; "
+             f"var tv=t?parseFloat(t.state).toFixed(1):'--'; var hv=h?parseFloat(h.state).toFixed(0):'--'; "
+             f"return tv+'°F / '+hv+'%'; ]]]")
+    return {
+        "type": "custom:button-card", "name": e["name"].upper(), "label": label, "show_label": True,
+        "styles": {"card": [{"background": "#0a0a0a"}, {"border": "1px solid #222"}, {"border-radius": "8px"},
+                            {"padding": "10px"}, {"box-shadow": f"0px 0px 10px {_rgba(color, 0.2)}"}],
+                   "name": [{"color": color}, {"font-weight": "bold"}, {"font-size": "16px"}, {"font-family": "monospace"}],
+                   "label": [{"color": "#00E5FF"}, {"font-size": "18px"}, {"font-family": "monospace"},
+                             {"text-shadow": "0px 0px 5px #00E5FF"}]},
+    }
+
+
 def _screensaver_view(enclosures):
-    # minimal anti-burn-in (orbit + scrolling title); per-enclosure mini stats omitted for brevity/robustness
+    stats = {"type": "horizontal-stack", "cards": [_ss_stat(e) for e in enclosures]}
     inner = {
         "type": "custom:button-card",
         "styles": {"card": [{"width": "780px"}, {"height": "460px"}, {"background": "#000000"}, {"margin": 0},
@@ -416,6 +441,8 @@ def _screensaver_view(enclosures):
                    "custom_fields": {
                        "top_text": [{"position": "absolute"}, {"top": "20px"}, {"left": "0px"}, {"width": "1500px"},
                                     {"animation": "scroll-top 30s linear infinite"}],
+                       "stats": [{"position": "absolute"}, {"bottom": "30px"}, {"left": "0px"}, {"width": "700px"},
+                                 {"animation": "scroll-bottom 25s linear infinite"}],
                        "albedo": [{"position": "absolute"}, {"width": "130px"},
                                   {"animation": "pulse 4s ease-in-out infinite, patrol-mid 50s linear infinite"}]}},
         "custom_fields": {
@@ -426,10 +453,9 @@ def _screensaver_view(enclosures):
             "albedo": {"card": {"type": "custom:button-card", "icon": "mdi:orbit",
                                 "styles": {"card": [{"background": "transparent"}, {"border": "none"}],
                                            "icon": [{"color": ACCENT_DEFAULT}, {"width": "100%"},
-                                                    {"filter": "drop-shadow(0px 0px 15px #00E5FF)"}]}}}},
-        "extra_styles": ("@keyframes scroll-top { 0%{transform:translateX(800px);} 100%{transform:translateX(-1500px);} }\n"
-                         "@keyframes pulse { 0%,100%{opacity:0.6;} 50%{opacity:1;} }\n"
-                         "@keyframes patrol-mid { 0%{top:200px;left:-130px;} 50%{top:200px;left:780px;} 100%{top:200px;left:-130px;} }\n"),
+                                                    {"filter": "drop-shadow(0px 0px 15px #00E5FF)"}]}}},
+            "stats": {"card": stats}},
+        "extra_styles": SCREENSAVER_KEYFRAMES,
     }
     return _panel("screensaver", "Screensaver", [inner])
 

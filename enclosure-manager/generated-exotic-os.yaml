@@ -2095,6 +2095,12 @@ views:
           - left: 0px
           - width: 1500px
           - animation: scroll-top 30s linear infinite
+          stats:
+          - position: absolute
+          - bottom: 30px
+          - left: 0px
+          - width: 700px
+          - animation: scroll-bottom 25s linear infinite
           albedo:
           - position: absolute
           - width: 130px
@@ -2125,10 +2131,92 @@ views:
               - color: '#00E5FF'
               - width: 100%
               - filter: 'drop-shadow(0px 0px 15px #00E5FF)'
-      extra_styles: '@keyframes scroll-top { 0%{transform:translateX(800px);} 100%{transform:translateX(-1500px);} }
-
-        @keyframes pulse { 0%,100%{opacity:0.6;} 50%{opacity:1;} }
-
-        @keyframes patrol-mid { 0%{top:200px;left:-130px;} 50%{top:200px;left:780px;} 100%{top:200px;left:-130px;} }
-
-        '
+        stats:
+          card:
+            type: horizontal-stack
+            cards:
+            - type: custom:button-card
+              name: MISS CORA
+              label: '[[[ var t=states[''sensor.thermo_hygrometer_8bdc3c_h5072_75_tempc'']; var h=states[''sensor.thermo_hygrometer_8bdc3c_h5072_75_hum'']; var tv=t?parseFloat(t.state).toFixed(1):''--''; var hv=h?parseFloat(h.state).toFixed(0):''--''; return tv+''°F / ''+hv+''%''; ]]]'
+              show_label: true
+              styles:
+                card:
+                - background: '#0a0a0a'
+                - border: '1px solid #222'
+                - border-radius: 8px
+                - padding: 10px
+                - box-shadow: 0px 0px 10px rgba(176, 38, 255, 0.2)
+                name:
+                - color: '#B026FF'
+                - font-weight: bold
+                - font-size: 16px
+                - font-family: monospace
+                label:
+                - color: '#00E5FF'
+                - font-size: 18px
+                - font-family: monospace
+                - text-shadow: '0px 0px 5px #00E5FF'
+            - type: custom:button-card
+              name: SONIC
+              label: '[[[ var t=states[''sensor.smart_thermo_hygrometer_461688_h5100_01_02_04_05_08_74_77_tempc'']; var h=states[''sensor.smart_thermo_hygrometer_461688_h5100_01_02_04_05_08_74_77_hum'']; var tv=t?parseFloat(t.state).toFixed(1):''--''; var hv=h?parseFloat(h.state).toFixed(0):''--''; return tv+''°F / ''+hv+''%''; ]]]'
+              show_label: true
+              styles:
+                card:
+                - background: '#0a0a0a'
+                - border: '1px solid #222'
+                - border-radius: 8px
+                - padding: 10px
+                - box-shadow: 0px 0px 10px rgba(57, 255, 20, 0.2)
+                name:
+                - color: '#39FF14'
+                - font-weight: bold
+                - font-size: 16px
+                - font-family: monospace
+                label:
+                - color: '#00E5FF'
+                - font-size: 18px
+                - font-family: monospace
+                - text-shadow: '0px 0px 5px #00E5FF'
+            - type: custom:button-card
+              name: MOTLEY
+              label: '[[[ var t=states[''sensor.thermo_hygrometer_e81c61_h5072_75_tempc'']; var h=states[''sensor.thermo_hygrometer_e81c61_h5072_75_hum'']; var tv=t?parseFloat(t.state).toFixed(1):''--''; var hv=h?parseFloat(h.state).toFixed(0):''--''; return tv+''°F / ''+hv+''%''; ]]]'
+              show_label: true
+              styles:
+                card:
+                - background: '#0a0a0a'
+                - border: '1px solid #222'
+                - border-radius: 8px
+                - padding: 10px
+                - box-shadow: 0px 0px 10px rgba(255, 107, 0, 0.2)
+                name:
+                - color: '#FF6B00'
+                - font-weight: bold
+                - font-size: 16px
+                - font-family: monospace
+                label:
+                - color: '#00E5FF'
+                - font-size: 18px
+                - font-family: monospace
+                - text-shadow: '0px 0px 5px #00E5FF'
+            - type: custom:button-card
+              name: CONFUSED SPIDER
+              label: '[[[ var t=states[''sensor.smart_thermo_hygrometer_c6332c_h5100_01_02_04_05_08_74_77_tempc'']; var h=states[''sensor.smart_thermo_hygrometer_c6332c_h5100_01_02_04_05_08_74_77_hum'']; var tv=t?parseFloat(t.state).toFixed(1):''--''; var hv=h?parseFloat(h.state).toFixed(0):''--''; return tv+''°F / ''+hv+''%''; ]]]'
+              show_label: true
+              styles:
+                card:
+                - background: '#0a0a0a'
+                - border: '1px solid #222'
+                - border-radius: 8px
+                - padding: 10px
+                - box-shadow: 0px 0px 10px rgba(0, 191, 255, 0.2)
+                name:
+                - color: '#00BFFF'
+                - font-weight: bold
+                - font-size: 16px
+                - font-family: monospace
+                label:
+                - color: '#00E5FF'
+                - font-size: 18px
+                - font-family: monospace
+                - text-shadow: '0px 0px 5px #00E5FF'
+      extra_styles: "@keyframes scroll-top {\n  0%   { transform: translateX(780px); }\n  100% { transform: translateX(-1500px); }\n}\n@keyframes scroll-bottom {\n  0%   { transform: translateX(780px); }\n  100% { transform: translateX(-800px); }\n}\n@keyframes pulse {\n  0%, 100% { transform: scale(0.85); opacity: 0.1; }\n  50%      { transform: scale(1.1); opacity: 0.6; }\n}\n@keyframes patrol-mid {\n  0%   { top: 160px; left: 100px; }\n  50%  { top: 160px; left: 530px; }\n  100% { top: 160px; left: 100px; }\n}\n"

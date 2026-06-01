@@ -1,0 +1,59 @@
+system:
+  browser_id: browser_mod_b2dfa711_40e39ce3
+enclosures:
+- slug: cora
+  name: Miss Cora
+  species: Ball Python
+  color: '#B026FF'
+  dimensions: 36×18×18 Enclosure
+  hot_temp: sensor.thermo_hygrometer_8bdc3c_h5072_75_tempc
+  hot_hum: sensor.thermo_hygrometer_8bdc3c_h5072_75_hum
+  cool_temp: sensor.thermo_hygrometer_87a7fb_h5072_75_tempc
+  cool_hum: sensor.thermo_hygrometer_87a7fb_h5072_75_hum
+  relay: switch.cora_che_socket_1
+  camera: camera.192_168_68_62
+  heater_type: CHE (Ceramic Heat Emitter)
+  pid: true
+  setpoint: 90
+- slug: sonic
+  name: Sonic
+  species: Crested Gecko
+  color: '#39FF14'
+  dimensions: 25.5×21.5×29.5 Grow Tent
+  hot_temp: sensor.smart_thermo_hygrometer_461688_h5100_01_02_04_05_08_74_77_tempc
+  hot_hum: sensor.smart_thermo_hygrometer_461688_h5100_01_02_04_05_08_74_77_hum
+  cool_temp: sensor.smart_thermo_hygrometer_c65f5d_h5100_01_02_04_05_08_74_77_tempc
+  cool_hum: sensor.smart_thermo_hygrometer_c65f5d_h5100_01_02_04_05_08_74_77_hum
+  relay: switch.tp_link_power_strip_29f0_che
+  camera: null
+  heater_type: CHE (Ceramic Heat Emitter)
+  pid: false
+  setpoint: 75
+- slug: motley
+  name: Motley
+  species: Corn Snake
+  color: '#FF6B00'
+  dimensions: 20 Gallon Long
+  hot_temp: sensor.thermo_hygrometer_e81c61_h5072_75_tempc
+  hot_hum: sensor.thermo_hygrometer_e81c61_h5072_75_hum
+  cool_temp: null
+  cool_hum: null
+  relay: null
+  camera: null
+  heater_type: null
+  pid: false
+  setpoint: 85
+- slug: confused-spider
+  name: Confused Spider
+  species: Ball Python
+  color: '#00BFFF'
+  dimensions: Enclosure
+  hot_temp: sensor.smart_thermo_hygrometer_c6332c_h5100_01_02_04_05_08_74_77_tempc
+  hot_hum: sensor.smart_thermo_hygrometer_c6332c_h5100_01_02_04_05_08_74_77_hum
+  cool_temp: null
+  cool_hum: null
+  relay: switch.smart_socket_socket_1
+  camera: null
+  heater_type: Heat Mat
+  pid: false
+  setpoint: 90

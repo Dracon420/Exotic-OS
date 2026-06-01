@@ -1,0 +1,70 @@
+# Exotic OS — Add/Edit Enclosure form helper entities (static).
+# Dropdown options for sensors/relay/camera are repopulated at form-open time by
+# pyscript.enclosure_form_init from live entities. Other options are fixed lists.
+input_text:
+  eos_form_name:
+    name: EOS Form Name
+    max: 80
+  eos_form_slug:
+    name: EOS Form Slug
+    max: 80
+input_number:
+  eos_form_setpoint:
+    name: EOS Form Setpoint
+    min: 60
+    max: 110
+    step: 0.5
+    unit_of_measurement: "°F"
+input_boolean:
+  eos_form_pid:
+    name: EOS Form PID
+input_select:
+  eos_form_species:
+    name: EOS Form Species
+    options:
+      - Ball Python
+      - Crested Gecko
+      - Corn Snake
+      - Leopard Gecko
+      - Bearded Dragon
+      - Other
+  eos_form_color:
+    name: EOS Form Color
+    options:
+      - Purple
+      - Green
+      - Orange
+      - Blue
+      - Yellow
+      - Red
+      - Teal
+      - Pink
+      - Cyan
+  eos_form_heater_type:
+    name: EOS Form Heater Type
+    options:
+      - CHE (Ceramic Heat Emitter)
+      - Radiant Heat Panel
+      - Heat Mat
+      - Deep Heat Projector
+      - Halogen Basking Bulb
+      - Mercury Vapor Bulb
+      - Radiant Heat Cable
+  eos_form_hot_temp:
+    name: EOS Form Hot Temp
+    options: ["—"]
+  eos_form_hot_hum:
+    name: EOS Form Hot Hum
+    options: ["—"]
+  eos_form_cool_temp:
+    name: EOS Form Cool Temp
+    options: ["none"]
+  eos_form_cool_hum:
+    name: EOS Form Cool Hum
+    options: ["none"]
+  eos_form_relay:
+    name: EOS Form Relay
+    options: ["none"]
+  eos_form_camera:
+    name: EOS Form Camera
+    options: ["none"]

@@ -325,16 +325,19 @@ def _home_tile(enc):
     }
 
 
-def _add_tile():
+def _add_banner():
+    # full-width banner below the enclosure gallery — always visible (no swiping)
     return {
-        "type": "custom:button-card", "name": "Add Enclosure", "label": "Tap to set up", "icon": "mdi:plus-circle-outline",
-        "show_label": True, "show_name": True,
+        "type": "custom:button-card", "name": "Add Enclosure", "label": "Tap to set up a new enclosure",
+        "icon": "mdi:plus-circle-outline", "show_label": True, "show_name": True,
         "tap_action": _open_form_action("add", None, "Add Enclosure"),
         "styles": {"card": [{"background": "#121212"}, {"border": "2px dashed #333333"}, {"border-radius": "12px"},
-                            {"padding": "15px"}, {"height": "200px"}],
-                   "name": [{"color": "#888"}, {"font-size": "18px"}, {"font-weight": "bold"}],
-                   "label": [{"color": "#555"}, {"font-size": "14px"}, {"margin-top": "12px"}],
-                   "icon": [{"color": "#555"}, {"width": "50px"}]},
+                            {"padding": "12px 22px"}, {"height": "64px"}, {"margin-top": "12px"}],
+                   "grid": [{"grid-template-columns": "44px auto"}, {"grid-template-areas": '"i n" "i l"'},
+                            {"justify-content": "start"}, {"align-content": "center"}],
+                   "name": [{"color": "#aaaaaa"}, {"font-size": "17px"}, {"font-weight": "bold"}, {"justify-self": "start"}],
+                   "label": [{"color": "#555555"}, {"font-size": "12px"}, {"justify-self": "start"}],
+                   "icon": [{"color": "#666666"}, {"width": "32px"}]},
     }
 
 
@@ -352,11 +355,14 @@ def _home_view(enclosures):
                             {"animation": "breathing 3s ease-in-out infinite"}, {"will-change": "transform, filter"}]},
         "extra_styles": BREATHING.replace("0px 0px 2px", "0px 0px 4px").replace("0px 0px 8px", "0px 0px 15px"),
     }
-    tiles = [_home_tile(e) for e in enclosures] + [_add_tile()]
-    swipe = {"type": "custom:swipe-card",
-             "parameters": {"centeredSlides": False, "slidesPerView": 4, "spaceBetween": 8, "freeMode": True},
-             "cards": tiles}
-    return _panel("home", "Home", [header, swipe])
+    tiles = [_home_tile(e) for e in enclosures]
+    home_cards = [header]
+    if tiles:
+        home_cards.append({"type": "custom:swipe-card",
+                           "parameters": {"centeredSlides": False, "slidesPerView": 4, "spaceBetween": 8, "freeMode": True},
+                           "cards": tiles})
+    home_cards.append(_add_banner())
+    return _panel("home", "Home", home_cards)
 
 
 def _enclosure_main_view(enc):

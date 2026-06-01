@@ -168,92 +168,99 @@ views:
           - width: 50px
         card_mod:
           style: "ha-card {\n  border: none;\n  box-shadow: 0px 0px 18px rgba(0, 191, 255, 0.4) !important;\n}\n"
-      - type: custom:button-card
-        name: Add Enclosure
-        label: Tap to set up
-        icon: mdi:plus-circle-outline
-        show_label: true
-        show_name: true
-        tap_action:
-          action: fire-dom-event
-          browser_mod:
-            service: browser_mod.sequence
-            data:
-              sequence:
-              - service: pyscript.enclosure_form_init
-                data:
-                  mode: add
-              - service: browser_mod.popup
-                data:
-                  title: Add Enclosure
-                  content:
-                    type: vertical-stack
-                    cards:
-                    - type: entities
-                      entities:
-                      - entity: input_text.eos_form_name
-                        name: Name
-                      - entity: input_select.eos_form_species
-                        name: Species
-                      - entity: input_select.eos_form_hot_temp
-                        name: Hot / main temp sensor
-                      - entity: input_select.eos_form_hot_hum
-                        name: Hot / main humidity
-                      - entity: input_select.eos_form_cool_temp
-                        name: Cool temp (optional)
-                      - entity: input_select.eos_form_cool_hum
-                        name: Cool humidity (optional)
-                      - entity: input_select.eos_form_relay
-                        name: Heat relay (optional)
-                      - entity: input_select.eos_form_heater_type
-                        name: Heater type
-                      - entity: input_select.eos_form_camera
-                        name: Camera (optional)
-                      - entity: input_select.eos_form_color
-                        name: Accent color
-                      - entity: input_number.eos_form_setpoint
-                        name: PID setpoint (°F)
-                      - entity: input_boolean.eos_form_pid
-                        name: Enable PID heat control
-                      state_color: true
-                      card_mod:
-                        style: 'ha-card { background: #0c0c0c !important; border: 1px solid #1a1a1a !important; }
+    - type: custom:button-card
+      name: Add Enclosure
+      label: Tap to set up a new enclosure
+      icon: mdi:plus-circle-outline
+      show_label: true
+      show_name: true
+      tap_action:
+        action: fire-dom-event
+        browser_mod:
+          service: browser_mod.sequence
+          data:
+            sequence:
+            - service: pyscript.enclosure_form_init
+              data:
+                mode: add
+            - service: browser_mod.popup
+              data:
+                title: Add Enclosure
+                content:
+                  type: vertical-stack
+                  cards:
+                  - type: entities
+                    entities:
+                    - entity: input_text.eos_form_name
+                      name: Name
+                    - entity: input_select.eos_form_species
+                      name: Species
+                    - entity: input_select.eos_form_hot_temp
+                      name: Hot / main temp sensor
+                    - entity: input_select.eos_form_hot_hum
+                      name: Hot / main humidity
+                    - entity: input_select.eos_form_cool_temp
+                      name: Cool temp (optional)
+                    - entity: input_select.eos_form_cool_hum
+                      name: Cool humidity (optional)
+                    - entity: input_select.eos_form_relay
+                      name: Heat relay (optional)
+                    - entity: input_select.eos_form_heater_type
+                      name: Heater type
+                    - entity: input_select.eos_form_camera
+                      name: Camera (optional)
+                    - entity: input_select.eos_form_color
+                      name: Accent color
+                    - entity: input_number.eos_form_setpoint
+                      name: PID setpoint (°F)
+                    - entity: input_boolean.eos_form_pid
+                      name: Enable PID heat control
+                    state_color: true
+                    card_mod:
+                      style: 'ha-card { background: #0c0c0c !important; border: 1px solid #1a1a1a !important; }
 
-                          '
-                  size: wide
-                  dismissable: true
-                  right_button: Save
-                  right_button_action:
-                    action: fire-dom-event
-                    browser_mod:
-                      service: browser_mod.sequence
-                      data:
-                        sequence:
-                        - service: pyscript.enclosure_submit_form
-                        - service: browser_mod.close_popup
-                  left_button: Cancel
-                  left_button_action:
-                    action: fire-dom-event
-                    browser_mod:
-                      service: browser_mod.close_popup
-        styles:
-          card:
-          - background: '#121212'
-          - border: '2px dashed #333333'
-          - border-radius: 12px
-          - padding: 15px
-          - height: 200px
-          name:
-          - color: '#888'
-          - font-size: 18px
-          - font-weight: bold
-          label:
-          - color: '#555'
-          - font-size: 14px
-          - margin-top: 12px
-          icon:
-          - color: '#555'
-          - width: 50px
+                        '
+                size: wide
+                dismissable: true
+                right_button: Save
+                right_button_action:
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.sequence
+                    data:
+                      sequence:
+                      - service: pyscript.enclosure_submit_form
+                      - service: browser_mod.close_popup
+                left_button: Cancel
+                left_button_action:
+                  action: fire-dom-event
+                  browser_mod:
+                    service: browser_mod.close_popup
+      styles:
+        card:
+        - background: '#121212'
+        - border: '2px dashed #333333'
+        - border-radius: 12px
+        - padding: 12px 22px
+        - height: 64px
+        - margin-top: 12px
+        grid:
+        - grid-template-columns: 44px auto
+        - grid-template-areas: '"i n" "i l"'
+        - justify-content: start
+        - align-content: center
+        name:
+        - color: '#aaaaaa'
+        - font-size: 17px
+        - font-weight: bold
+        - justify-self: start
+        label:
+        - color: '#555555'
+        - font-size: 12px
+        - justify-self: start
+        icon:
+        - color: '#666666'
+        - width: 32px
 - title: Miss Cora
   path: cora
   type: panel

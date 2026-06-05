@@ -35,18 +35,12 @@ BG0 = "#050505"
 BG1 = "#0f0f0f"
 CARD_BG = "#080808"
 
-BREATHING = (
-    "@keyframes breathing {\n"
-    "  0% { transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0px 0px 2px #00E5FF); }\n"
-    "  50% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0px 0px 8px #00E5FF); }\n"
-    "  100% { transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0px 0px 2px #00E5FF); }\n}\n"
-)
-PULSE = (
-    "@keyframes pulse {\n"
-    "  0% { filter: drop-shadow(0px 0px 2px {C}); }\n"
-    "  50% { filter: drop-shadow(0px 0px 10px {C}); }\n"
-    "  100% { filter: drop-shadow(0px 0px 2px {C}); }\n}\n"
-)
+# Animations disabled: the BTT Pi renders with --disable-gpu (software compositing),
+# and continuous CSS animations — especially filter: drop-shadow (a per-frame CPU
+# blur) — saturate the CPU and freeze the device. Glows are kept as STATIC box-shadow.
+# (Re-enable lightweight animation only after the Pi's GPU is confirmed working.)
+BREATHING = ""
+PULSE = ""
 CURSOR_NONE = "      :host {\n        cursor: none !important;\n      }\n"
 
 SPECIES_ICON = {
@@ -413,12 +407,9 @@ def _enclosure_camera_view(enc):
     return _panel(f'{e["slug"]}-cam', f'{e["name"]} Cam', cards)
 
 
-SCREENSAVER_KEYFRAMES = (
-    "@keyframes scroll-top {\n  0%   { transform: translateX(780px); }\n  100% { transform: translateX(-1500px); }\n}\n"
-    "@keyframes scroll-bottom {\n  0%   { transform: translateX(780px); }\n  100% { transform: translateX(-800px); }\n}\n"
-    "@keyframes pulse {\n  0%, 100% { transform: scale(0.85); opacity: 0.1; }\n  50%      { transform: scale(1.1); opacity: 0.6; }\n}\n"
-    "@keyframes patrol-mid {\n  0%   { top: 160px; left: 100px; }\n  50%  { top: 160px; left: 530px; }\n  100% { top: 160px; left: 100px; }\n}\n"
-)
+# Static screensaver (no continuous animation) to keep the Pi's CPU idle; the
+# branded layout still shows. True anti-burn-in is better handled by DPMS screen-off.
+SCREENSAVER_KEYFRAMES = ""
 
 
 def _ss_stat(enc):

@@ -48,7 +48,7 @@ views:
         - justify-self: end
         - animation: breathing 3s ease-in-out infinite
         - will-change: transform, filter
-      extra_styles: "@keyframes breathing {\n  0% { transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0px 0px 4px #00E5FF); }\n  50% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0px 0px 15px #00E5FF); }\n  100% { transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0px 0px 4px #00E5FF); }\n}\n"
+      extra_styles: ''
     - type: custom:swipe-card
       parameters:
         centeredSlides: false
@@ -325,7 +325,7 @@ views:
           - width: 40px
           - animation: breathing 3s ease-in-out infinite
           - will-change: transform, filter
-        extra_styles: "@keyframes breathing {\n  0% { transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0px 0px 2px #00E5FF); }\n  50% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0px 0px 8px #00E5FF); }\n  100% { transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0px 0px 2px #00E5FF); }\n}\n"
+        extra_styles: ''
     - type: horizontal-stack
       cards:
       - type: vertical-stack
@@ -482,7 +482,7 @@ views:
               - color: '#444444'
               label:
               - color: '#444444'
-          extra_styles: "@keyframes pulse {\n  0% { filter: drop-shadow(0px 0px 2px #B026FF); }\n  50% { filter: drop-shadow(0px 0px 10px #B026FF); }\n  100% { filter: drop-shadow(0px 0px 2px #B026FF); }\n}\n"
+          extra_styles: ''
       - type: vertical-stack
         cards:
         - type: history-graph
@@ -748,7 +748,7 @@ views:
           - width: 40px
           - animation: breathing 3s ease-in-out infinite
           - will-change: transform, filter
-        extra_styles: "@keyframes breathing {\n  0% { transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0px 0px 2px #00E5FF); }\n  50% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0px 0px 8px #00E5FF); }\n  100% { transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0px 0px 2px #00E5FF); }\n}\n"
+        extra_styles: ''
     - type: picture-entity
       entity: camera.192_168_68_62
       show_state: false
@@ -894,7 +894,7 @@ views:
           - width: 40px
           - animation: breathing 3s ease-in-out infinite
           - will-change: transform, filter
-        extra_styles: "@keyframes breathing {\n  0% { transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0px 0px 2px #00E5FF); }\n  50% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0px 0px 8px #00E5FF); }\n  100% { transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0px 0px 2px #00E5FF); }\n}\n"
+        extra_styles: ''
     - type: horizontal-stack
       cards:
       - type: custom:button-card
@@ -1197,7 +1197,7 @@ views:
           - width: 40px
           - animation: breathing 3s ease-in-out infinite
           - will-change: transform, filter
-        extra_styles: "@keyframes breathing {\n  0% { transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0px 0px 2px #00E5FF); }\n  50% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0px 0px 8px #00E5FF); }\n  100% { transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0px 0px 2px #00E5FF); }\n}\n"
+        extra_styles: ''
     - type: horizontal-stack
       cards:
       - type: vertical-stack
@@ -1354,7 +1354,7 @@ views:
               - color: '#444444'
               label:
               - color: '#444444'
-          extra_styles: "@keyframes pulse {\n  0% { filter: drop-shadow(0px 0px 2px #39FF14); }\n  50% { filter: drop-shadow(0px 0px 10px #39FF14); }\n  100% { filter: drop-shadow(0px 0px 2px #39FF14); }\n}\n"
+          extra_styles: ''
       - type: vertical-stack
         cards:
         - type: history-graph
@@ -1558,7 +1558,7 @@ views:
           - width: 40px
           - animation: breathing 3s ease-in-out infinite
           - will-change: transform, filter
-        extra_styles: "@keyframes breathing {\n  0% { transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0px 0px 2px #00E5FF); }\n  50% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0px 0px 8px #00E5FF); }\n  100% { transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0px 0px 2px #00E5FF); }\n}\n"
+        extra_styles: ''
     - type: horizontal-stack
       cards:
       - type: vertical-stack
@@ -1832,7 +1832,7 @@ views:
           - width: 40px
           - animation: breathing 3s ease-in-out infinite
           - will-change: transform, filter
-        extra_styles: "@keyframes breathing {\n  0% { transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0px 0px 2px #00E5FF); }\n  50% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0px 0px 8px #00E5FF); }\n  100% { transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0px 0px 2px #00E5FF); }\n}\n"
+        extra_styles: ''
     - type: horizontal-stack
       cards:
       - type: vertical-stack
@@ -1941,7 +1941,7 @@ views:
               - color: '#444444'
               label:
               - color: '#444444'
-          extra_styles: "@keyframes pulse {\n  0% { filter: drop-shadow(0px 0px 2px #00BFFF); }\n  50% { filter: drop-shadow(0px 0px 10px #00BFFF); }\n  100% { filter: drop-shadow(0px 0px 2px #00BFFF); }\n}\n"
+          extra_styles: ''
       - type: vertical-stack
         cards:
         - type: history-graph
@@ -2226,4 +2226,4 @@ views:
                 - font-size: 18px
                 - font-family: monospace
                 - text-shadow: '0px 0px 5px #00E5FF'
-      extra_styles: "@keyframes scroll-top {\n  0%   { transform: translateX(780px); }\n  100% { transform: translateX(-1500px); }\n}\n@keyframes scroll-bottom {\n  0%   { transform: translateX(780px); }\n  100% { transform: translateX(-800px); }\n}\n@keyframes pulse {\n  0%, 100% { transform: scale(0.85); opacity: 0.1; }\n  50%      { transform: scale(1.1); opacity: 0.6; }\n}\n@keyframes patrol-mid {\n  0%   { top: 160px; left: 100px; }\n  50%  { top: 160px; left: 530px; }\n  100% { top: 160px; left: 100px; }\n}\n"
+      extra_styles: ''

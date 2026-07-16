@@ -407,13 +407,17 @@ def _enclosure_camera_view(enc):
     return _panel(f'{e["slug"]}-cam', f'{e["name"]} Cam', cards)
 
 
-# Screensaver: keep the cheap translateX SCROLL animations (text + stats) — these
-# are composited, not repainted, so they're light even with --disable-gpu. The
-# expensive bits (the patrol-mid moving orbit + its filter:drop-shadow blur, and
-# the pulse) are intentionally NOT defined, so the orbit stays static.
+# Screensaver: full motion, but every animation is COMPOSITED — transform and
+# opacity only. The software-rendered Pi moves pre-painted layers instead of
+# repainting them each frame, so it's light even with --disable-gpu. (The old
+# freeze came from animating the orbit's top/left, which re-laid-out and
+# re-blurred its drop-shadow every frame; patrol now uses transform: translateX,
+# and the glow breathes via opacity, so the blur is painted just once.)
 SCREENSAVER_KEYFRAMES = (
     "@keyframes scroll-top {\n  0%   { transform: translateX(780px); }\n  100% { transform: translateX(-1500px); }\n}\n"
-    "@keyframes scroll-bottom {\n  0%   { transform: translateX(780px); }\n  100% { transform: translateX(-900px); }\n}\n"
+    "@keyframes scroll-bottom {\n  0%   { transform: translateX(780px); }\n  100% { transform: translateX(-800px); }\n}\n"
+    "@keyframes patrol-x {\n  0%   { transform: translateX(0px); }\n  50%  { transform: translateX(430px); }\n  100% { transform: translateX(0px); }\n}\n"
+    "@keyframes glow-pulse {\n  0%, 100% { opacity: 0.4; }\n  50%      { opacity: 1; }\n}\n"
 )
 
 
@@ -435,25 +439,34 @@ def _ss_stat(enc):
 
 
 def _screensaver_view(enclosures):
-    # Static, readable, dim branded layout. No continuous CSS animation — the
-    # GPU-less Pi software-composites every animation frame on the CPU and freezes.
-    # (The static drop-shadow glow is painted once, so it's cheap.)
-    title = {
-        "type": "custom:button-card", "name": "EXOTIC OS", "label": "SMART HUSBANDRY · SIMPLIFIED",
-        "show_label": True, "tap_action": {"action": "none"},
-        "styles": {"card": [{"background": "transparent"}, {"border": "none"}, {"margin-top": "46px"}],
-                   "name": [{"color": "#54707d"}, {"font-family": "monospace"}, {"font-size": "44px"}, {"letter-spacing": "8px"}],
-                   "label": [{"color": "#37474F"}, {"font-family": "monospace"}, {"font-size": "15px"},
-                             {"letter-spacing": "4px"}, {"margin-top": "12px"}]},
-    }
-    orbit = {
-        "type": "custom:button-card", "icon": "mdi:orbit", "tap_action": {"action": "none"},
-        "styles": {"card": [{"background": "transparent"}, {"border": "none"}, {"height": "150px"}, {"margin": "24px 0"}],
-                   "icon": [{"color": ACCENT_DEFAULT}, {"width": "110px"},
-                            {"filter": "drop-shadow(0px 0px 12px #00E5FF)"}]},
-    }
+    # Moving branded screensaver: scrolling title marquee, a patrolling glowing
+    # orbit, and the live per-enclosure stats scrolling along the bottom. All
+    # motion is transform/opacity (composited) so it runs cool on the GPU-less Pi.
     stats = {"type": "horizontal-stack", "cards": [_ss_stat(e) for e in enclosures]}
-    inner = {"type": "vertical-stack", "cards": [title, orbit, stats]}
+    inner = {
+        "type": "custom:button-card",
+        "styles": {"card": [{"width": "780px"}, {"height": "460px"}, {"background": "#000000"}, {"margin": 0},
+                            {"padding": 0}, {"border": "none"}, {"overflow": "hidden"}],
+                   "custom_fields": {
+                       "top_text": [{"position": "absolute"}, {"top": "20px"}, {"left": "0px"}, {"width": "1500px"},
+                                    {"animation": "scroll-top 30s linear infinite"}],
+                       "stats": [{"position": "absolute"}, {"bottom": "30px"}, {"left": "0px"}, {"width": "700px"},
+                                 {"animation": "scroll-bottom 25s linear infinite"}],
+                       "albedo": [{"position": "absolute"}, {"top": "160px"}, {"left": "100px"}, {"width": "130px"},
+                                  {"animation": "patrol-x 50s linear infinite"}]}},
+        "custom_fields": {
+            "top_text": {"card": {"type": "custom:button-card", "name": "EXOTIC OS — SMART HUSBANDRY, SIMPLIFIED ",
+                                  "styles": {"card": [{"background": "transparent"}, {"border": "none"}],
+                                             "name": [{"color": "#546E7A"}, {"font-family": "monospace"},
+                                                      {"font-size": "36px"}, {"letter-spacing": "4px"}]}}},
+            "albedo": {"card": {"type": "custom:button-card", "icon": "mdi:orbit",
+                                "styles": {"card": [{"background": "transparent"}, {"border": "none"}],
+                                           "icon": [{"color": ACCENT_DEFAULT}, {"width": "100%"},
+                                                    {"filter": "drop-shadow(0px 0px 15px #00E5FF)"},
+                                                    {"animation": "glow-pulse 4s ease-in-out infinite"}]}}},
+            "stats": {"card": stats}},
+        "extra_styles": SCREENSAVER_KEYFRAMES,
+    }
     return _panel("screensaver", "Screensaver", [inner])
 
 

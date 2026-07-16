@@ -2085,127 +2085,148 @@ views:
   cards:
   - type: vertical-stack
     cards:
-    - type: vertical-stack
-      cards:
-      - type: custom:button-card
-        name: EXOTIC OS
-        label: SMART HUSBANDRY · SIMPLIFIED
-        show_label: true
-        tap_action:
-          action: none
-        styles:
+    - type: custom:button-card
+      styles:
+        card:
+        - width: 780px
+        - height: 460px
+        - background: '#000000'
+        - margin: 0
+        - padding: 0
+        - border: none
+        - overflow: hidden
+        custom_fields:
+          top_text:
+          - position: absolute
+          - top: 20px
+          - left: 0px
+          - width: 1500px
+          - animation: scroll-top 30s linear infinite
+          stats:
+          - position: absolute
+          - bottom: 30px
+          - left: 0px
+          - width: 700px
+          - animation: scroll-bottom 25s linear infinite
+          albedo:
+          - position: absolute
+          - top: 160px
+          - left: 100px
+          - width: 130px
+          - animation: patrol-x 50s linear infinite
+      custom_fields:
+        top_text:
           card:
-          - background: transparent
-          - border: none
-          - margin-top: 46px
-          name:
-          - color: '#54707d'
-          - font-family: monospace
-          - font-size: 44px
-          - letter-spacing: 8px
-          label:
-          - color: '#37474F'
-          - font-family: monospace
-          - font-size: 15px
-          - letter-spacing: 4px
-          - margin-top: 12px
-      - type: custom:button-card
-        icon: mdi:orbit
-        tap_action:
-          action: none
-        styles:
+            type: custom:button-card
+            name: 'EXOTIC OS — SMART HUSBANDRY, SIMPLIFIED '
+            styles:
+              card:
+              - background: transparent
+              - border: none
+              name:
+              - color: '#546E7A'
+              - font-family: monospace
+              - font-size: 36px
+              - letter-spacing: 4px
+        albedo:
           card:
-          - background: transparent
-          - border: none
-          - height: 150px
-          - margin: 24px 0
-          icon:
-          - color: '#00E5FF'
-          - width: 110px
-          - filter: 'drop-shadow(0px 0px 12px #00E5FF)'
-      - type: horizontal-stack
-        cards:
-        - type: custom:button-card
-          name: MISS CORA
-          label: '[[[ var t=states[''sensor.thermo_hygrometer_8bdc3c_h5072_75_tempc'']; var h=states[''sensor.thermo_hygrometer_8bdc3c_h5072_75_hum'']; var tv=t?parseFloat(t.state).toFixed(1):''--''; var hv=h?parseFloat(h.state).toFixed(0):''--''; return tv+''°F / ''+hv+''%''; ]]]'
-          show_label: true
-          styles:
-            card:
-            - background: '#0a0a0a'
-            - border: '1px solid #222'
-            - border-radius: 8px
-            - padding: 10px
-            - box-shadow: 0px 0px 10px rgba(176, 38, 255, 0.2)
-            name:
-            - color: '#B026FF'
-            - font-weight: bold
-            - font-size: 16px
-            - font-family: monospace
-            label:
-            - color: '#00E5FF'
-            - font-size: 18px
-            - font-family: monospace
-            - text-shadow: '0px 0px 5px #00E5FF'
-        - type: custom:button-card
-          name: SONIC
-          label: '[[[ var t=states[''sensor.smart_thermo_hygrometer_461688_h5100_01_02_04_05_08_74_77_tempc'']; var h=states[''sensor.smart_thermo_hygrometer_461688_h5100_01_02_04_05_08_74_77_hum'']; var tv=t?parseFloat(t.state).toFixed(1):''--''; var hv=h?parseFloat(h.state).toFixed(0):''--''; return tv+''°F / ''+hv+''%''; ]]]'
-          show_label: true
-          styles:
-            card:
-            - background: '#0a0a0a'
-            - border: '1px solid #222'
-            - border-radius: 8px
-            - padding: 10px
-            - box-shadow: 0px 0px 10px rgba(57, 255, 20, 0.2)
-            name:
-            - color: '#39FF14'
-            - font-weight: bold
-            - font-size: 16px
-            - font-family: monospace
-            label:
-            - color: '#00E5FF'
-            - font-size: 18px
-            - font-family: monospace
-            - text-shadow: '0px 0px 5px #00E5FF'
-        - type: custom:button-card
-          name: MOTLEY
-          label: '[[[ var t=states[''sensor.thermo_hygrometer_e81c61_h5072_75_tempc'']; var h=states[''sensor.thermo_hygrometer_e81c61_h5072_75_hum'']; var tv=t?parseFloat(t.state).toFixed(1):''--''; var hv=h?parseFloat(h.state).toFixed(0):''--''; return tv+''°F / ''+hv+''%''; ]]]'
-          show_label: true
-          styles:
-            card:
-            - background: '#0a0a0a'
-            - border: '1px solid #222'
-            - border-radius: 8px
-            - padding: 10px
-            - box-shadow: 0px 0px 10px rgba(255, 107, 0, 0.2)
-            name:
-            - color: '#FF6B00'
-            - font-weight: bold
-            - font-size: 16px
-            - font-family: monospace
-            label:
-            - color: '#00E5FF'
-            - font-size: 18px
-            - font-family: monospace
-            - text-shadow: '0px 0px 5px #00E5FF'
-        - type: custom:button-card
-          name: CONFUSED SPIDER
-          label: '[[[ var t=states[''sensor.smart_thermo_hygrometer_c6332c_h5100_01_02_04_05_08_74_77_tempc'']; var h=states[''sensor.smart_thermo_hygrometer_c6332c_h5100_01_02_04_05_08_74_77_hum'']; var tv=t?parseFloat(t.state).toFixed(1):''--''; var hv=h?parseFloat(h.state).toFixed(0):''--''; return tv+''°F / ''+hv+''%''; ]]]'
-          show_label: true
-          styles:
-            card:
-            - background: '#0a0a0a'
-            - border: '1px solid #222'
-            - border-radius: 8px
-            - padding: 10px
-            - box-shadow: 0px 0px 10px rgba(0, 191, 255, 0.2)
-            name:
-            - color: '#00BFFF'
-            - font-weight: bold
-            - font-size: 16px
-            - font-family: monospace
-            label:
-            - color: '#00E5FF'
-            - font-size: 18px
-            - font-family: monospace
-            - text-shadow: '0px 0px 5px #00E5FF'
+            type: custom:button-card
+            icon: mdi:orbit
+            styles:
+              card:
+              - background: transparent
+              - border: none
+              icon:
+              - color: '#00E5FF'
+              - width: 100%
+              - filter: 'drop-shadow(0px 0px 15px #00E5FF)'
+              - animation: glow-pulse 4s ease-in-out infinite
+        stats:
+          card:
+            type: horizontal-stack
+            cards:
+            - type: custom:button-card
+              name: MISS CORA
+              label: '[[[ var t=states[''sensor.thermo_hygrometer_8bdc3c_h5072_75_tempc'']; var h=states[''sensor.thermo_hygrometer_8bdc3c_h5072_75_hum'']; var tv=t?parseFloat(t.state).toFixed(1):''--''; var hv=h?parseFloat(h.state).toFixed(0):''--''; return tv+''°F / ''+hv+''%''; ]]]'
+              show_label: true
+              styles:
+                card:
+                - background: '#0a0a0a'
+                - border: '1px solid #222'
+                - border-radius: 8px
+                - padding: 10px
+                - box-shadow: 0px 0px 10px rgba(176, 38, 255, 0.2)
+                name:
+                - color: '#B026FF'
+                - font-weight: bold
+                - font-size: 16px
+                - font-family: monospace
+                label:
+                - color: '#00E5FF'
+                - font-size: 18px
+                - font-family: monospace
+                - text-shadow: '0px 0px 5px #00E5FF'
+            - type: custom:button-card
+              name: SONIC
+              label: '[[[ var t=states[''sensor.smart_thermo_hygrometer_461688_h5100_01_02_04_05_08_74_77_tempc'']; var h=states[''sensor.smart_thermo_hygrometer_461688_h5100_01_02_04_05_08_74_77_hum'']; var tv=t?parseFloat(t.state).toFixed(1):''--''; var hv=h?parseFloat(h.state).toFixed(0):''--''; return tv+''°F / ''+hv+''%''; ]]]'
+              show_label: true
+              styles:
+                card:
+                - background: '#0a0a0a'
+                - border: '1px solid #222'
+                - border-radius: 8px
+                - padding: 10px
+                - box-shadow: 0px 0px 10px rgba(57, 255, 20, 0.2)
+                name:
+                - color: '#39FF14'
+                - font-weight: bold
+                - font-size: 16px
+                - font-family: monospace
+                label:
+                - color: '#00E5FF'
+                - font-size: 18px
+                - font-family: monospace
+                - text-shadow: '0px 0px 5px #00E5FF'
+            - type: custom:button-card
+              name: MOTLEY
+              label: '[[[ var t=states[''sensor.thermo_hygrometer_e81c61_h5072_75_tempc'']; var h=states[''sensor.thermo_hygrometer_e81c61_h5072_75_hum'']; var tv=t?parseFloat(t.state).toFixed(1):''--''; var hv=h?parseFloat(h.state).toFixed(0):''--''; return tv+''°F / ''+hv+''%''; ]]]'
+              show_label: true
+              styles:
+                card:
+                - background: '#0a0a0a'
+                - border: '1px solid #222'
+                - border-radius: 8px
+                - padding: 10px
+                - box-shadow: 0px 0px 10px rgba(255, 107, 0, 0.2)
+                name:
+                - color: '#FF6B00'
+                - font-weight: bold
+                - font-size: 16px
+                - font-family: monospace
+                label:
+                - color: '#00E5FF'
+                - font-size: 18px
+                - font-family: monospace
+                - text-shadow: '0px 0px 5px #00E5FF'
+            - type: custom:button-card
+              name: CONFUSED SPIDER
+              label: '[[[ var t=states[''sensor.smart_thermo_hygrometer_c6332c_h5100_01_02_04_05_08_74_77_tempc'']; var h=states[''sensor.smart_thermo_hygrometer_c6332c_h5100_01_02_04_05_08_74_77_hum'']; var tv=t?parseFloat(t.state).toFixed(1):''--''; var hv=h?parseFloat(h.state).toFixed(0):''--''; return tv+''°F / ''+hv+''%''; ]]]'
+              show_label: true
+              styles:
+                card:
+                - background: '#0a0a0a'
+                - border: '1px solid #222'
+                - border-radius: 8px
+                - padding: 10px
+                - box-shadow: 0px 0px 10px rgba(0, 191, 255, 0.2)
+                name:
+                - color: '#00BFFF'
+                - font-weight: bold
+                - font-size: 16px
+                - font-family: monospace
+                label:
+                - color: '#00E5FF'
+                - font-size: 18px
+                - font-family: monospace
+                - text-shadow: '0px 0px 5px #00E5FF'
+      extra_styles: "@keyframes scroll-top {\n  0%   { transform: translateX(780px); }\n  100% { transform: translateX(-1500px); }\n}\n@keyframes scroll-bottom {\n  0%   { transform: translateX(780px); }\n  100% { transform: translateX(-800px); }\n}\n@keyframes patrol-x {\n  0%   { transform: translateX(0px); }\n  50%  { transform: translateX(430px); }\n  100% { transform: translateX(0px); }\n}\n@keyframes glow-pulse {\n  0%, 100% { opacity: 0.4; }\n  50%      { opacity: 1; }\n}\n"

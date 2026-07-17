@@ -1,0 +1,19 @@
+# BTT Pi kiosk cron setup (10.0.0.230, user exoticos). Updated 2026-07-16.
+#
+# Two crontabs are used.
+
+# ---- USER crontab  (crontab -e as exoticos) ----
+# Watchdog every 2 min: relaunches / un-wedges Chromium (see kiosk-watchdog.sh).
+*/2 * * * * /home/exoticos/kiosk-watchdog.sh >/dev/null 2>&1
+
+# ---- ROOT crontab  (sudo crontab -e) ----
+# Nightly FULL reboot at 04:00. A user cron can't reboot, so this lives in root's
+# crontab. The reboot clears kernel-state creep on the BTT Armbian rk35xx kernel
+# (recurring udev-worker Oops in kernfs_root + Bad rss-counter over long uptime),
+# which a Chromium-only restart cannot clear. The kiosk auto-starts on boot via
+# ~/.config/openbox/autostart -> kiosk.sh, and theengs.service resumes via systemd.
+# This replaced the old 04:00 kiosk-restart.sh (Chromium-only) job.
+0 4 * * * /sbin/reboot
+
+# kiosk-restart.sh remains in this repo as a manual "clean Chromium restart" tool
+# but is no longer wired to cron (the nightly reboot supersedes it).

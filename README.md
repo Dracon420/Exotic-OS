@@ -50,3 +50,9 @@ hardware/           # Bill of materials, wiring diagrams, enclosure specs
 4. Run `scripts/pisugar-mqtt.sh` as a service on the Pi for battery telemetry.
 
 See `docs/` for wiring guides and a full hardware BOM.
+
+---
+
+## License
+
+[PolyForm Noncommercial 1.0.0](LICENSE.md). You're free to use, study and change it for personal, hobby, educational and other **noncommercial** purposes. **Commercial use, including selling it or running it as a paid service, isn't allowed** without a separate licence from the author; open an issue to ask.
